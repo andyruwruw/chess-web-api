@@ -1,0 +1,25 @@
+{
+  "name": "chess-web-api",
+  "version": "1.0.0",
+  "description": "chess.com api wrapper",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andyruwruw/chess-web-api.git"
+  },
+  "keywords": [
+    "Chess",
+    "API",
+    "chess.com",
+    "wrapper"
+  ],
+  "author": "Andrew Young",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andyruwruw/chess-web-api/issues"
+  },
+  "homepage": "https://github.com/andyruwruw/chess-web-api#readme"
+}
