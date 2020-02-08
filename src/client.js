@@ -1,0 +1,1 @@
+module.exports = require('./chess-web-api');
