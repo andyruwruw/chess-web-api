@@ -1,24 +1,43 @@
 'use strict';
 
-var WebApiRequest = require('./webapi-request');
-var HttpManager = require('./http-manager');
+var WebApiRequest = require('./webapi-request.js');
+var HttpManager = require('./http-manager.js');
+var Queue = require('./queue-methods.js');
 
-function ChessWebAPI() {
-  
+function ChessWebAPI(options) {
+  if (options && 'queue' in options && options['queue']) {
+    this.addMethods(Queue)
+    this.queueSetup();
+  }
 }
 
 ChessWebAPI.prototype = {
+  addMethods: function(methods) {
+    for (var i in methods) {
+      if (methods.hasOwnProperty(i)) {
+        this[i] = methods[i];
+      }
+    }
+  },
 
-  /**
-   * Look up a player's profile by username
-   * 
-   * @param {string} username player username.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  playerProfile: function(username, options, callback) {
+  ifChanged: async function(etag, method, parameters, options, callback, headers) {
+    try {
+      var actualCallback, actualOptions;
+      if (typeof options === 'function' && !callback) {
+        actualCallback = options;
+        actualOptions = {};
+      } else {
+        actualCallback = callback;
+        actualOptions = options;
+      }
+      let response = {changed: true, response: await method(...parameters, actualOptions, actualCallback, {"If-None-Match": etag})};
+      return response;
+    } catch(error) {
+      return {changed: false};
+    }
+  },
+
+  getPlayer: function(username, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -27,24 +46,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/player/' + username)
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-   /**
-   * Get ratings, win/loss, and other stats about a player's game play, tactics, lessons and Puzzle Rush score.
-   * 
-   * @param {string} username player username.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  playerStats: function(username, options, callback) {
+  getPlayerStats: function(username, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -53,24 +65,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/player/' + username + '/stats')
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Tells if a user has been online in the last five minutes.
-   * 
-   * @param {string} username player username.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  playerOnline: function(username, options, callback) {
+  getPlayerOnline: function(username, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -79,24 +84,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/player/' + username + '/is-online')
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Array of Daily Chess games that a player is currently playing.
-   * 
-   * @param {string} username player username.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  playerCurrentDailyChess: function(username, options, callback) {
+  getPlayerCurrentDailyChess: function(username, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -105,24 +103,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/player/' + username + '/games')
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Array of Daily Chess games where it is the player's turn to act.
-   * 
-   * @param {string} username player username.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  playerToMoveDailyChess: function(username, options, callback) {
+  getPlayerToMoveDailyChess: function(username, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -131,24 +122,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/player/' + username + '/games/to-move')
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Array of monthly archives available for this player.
-   * 
-   * @param {string} username player username.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  playerMonthlyArchives: function(username, options, callback) {
+  getPlayerMonthlyArchives: function(username, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -157,26 +141,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/player/' + username + '/games/archives')
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Array of Live and Daily Chess games that a player has finished.
-   * 
-   * @param {string} username player username.
-   * @param {number | string} year Four digit year of game-end
-   * @param {number | string} month Two digit month
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  playerCompleteMonthlyArchives: function(username, year, month, options, callback) {
+  getPlayerCompleteMonthlyArchives: function(username, year, month, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -185,6 +160,7 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
     var monthFormat = "";
     if (typeof month == 'number' && month < 10) {
       monthFormat += "0" + month;
@@ -197,22 +173,12 @@ ChessWebAPI.prototype = {
     return WebApiRequest.builder()
       .withPath('/pub/player/' + username + '/games/' + year + '/' + monthFormat)
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * standard multi-game format PGN containing all games for a month.
-   * 
-   * @param {string} username player username.
-   * @param {number | string} year Four digit year of game-end
-   * @param {number | string} month Two digit month
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  playerMultiGamePGN: function(username, options, callback) {
+  getPlayerMultiGamePGN: function(username, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -221,6 +187,7 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
     var monthFormat = "";
     if (typeof month == 'number' && month < 10) {
       monthFormat += "0" + month;
@@ -233,20 +200,12 @@ ChessWebAPI.prototype = {
     return WebApiRequest.builder()
       .withPath('/pub/player/' + username + '/games/' + year + '/' + monthFormat + '/pgn')
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * List of Team matches the player has attended, is particpating or is currently registered.
-   * 
-   * @param {string} username player username.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  playerMatches: function(username, options, callback) {
+  getPlayerMatches: function(username, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -255,24 +214,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/player/' + username + '/matches')
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * List of tournaments the player is registered, is attending or has attended in the past.
-   * 
-   * @param {string} username player username.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  playerTournaments: function(username, options, callback) {
+  getPlayerTournaments: function(username, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -281,24 +233,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/player/' + username + '/tournaments')
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * List of titled-player usernames.
-   * 
-   * @param {string} titleAbbrev valid abbreviations are "GM", "WGM", "IM", "WIM", "FM", "WFM", "NM", "WNM", "CM", "WCM"
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  titledPlayers: function(titleAbbrev, options, callback) {
+  getTitledPlayers: function(titleAbbrev, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -307,24 +252,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/titled/' + titleAbbrev)
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Get additional details about a club.
-   * 
-   * @param {string} urlID All club-based URLs use the club's "URL ID" to specify which club you want data for.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  clubProfile: function(urlID, options, callback) {
+  getClub: function(urlID, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -333,24 +271,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/club/' + urlID)
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Get Club members
-   * 
-   * @param {string} urlID All club-based URLs use the club's "URL ID" to specify which club you want data for.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  clubMembers: function(urlID, options, callback) {
+  getClubMembers: function(urlID, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -359,24 +290,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/club/' + urlID + '/members')
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * List of daily and club matches, grouped by status (registered, in progress, finished).
-   * 
-   * @param {string} urlID All club-based URLs use the club's "URL ID" to specify which club you want data for.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  clubMembers: function(urlID, options, callback) {
+  getClubMatches: function(urlID, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -385,24 +309,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/club/' + urlID + '/matches')
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Get details about a daily, live and arena tournament.
-   * 
-   * @param {string} urlID All club-based URLs use the club's "URL ID" to specify which club you want data for.
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  tournament: function(urlID, options, callback) {
+  getTournament: function(urlID, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -411,25 +328,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/tournament/' + urlID)
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Get details about a tournament's round.
-   * 
-   * @param {string} urlID All club-based URLs use the club's "URL ID" to specify which club you want data for.
-   * @param {string} round round number
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  tournamentRound: function(urlID, round, options, callback) {
+  getTournamentRound: function(urlID, round, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -438,26 +347,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/tournament/' + urlID + '/' + round)
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Get details about a tournament's round.
-   * 
-   * @param {string} urlID 
-   * @param {string} round round number
-   * @param {string} group 
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  tournamentRoundGroup: function(urlID, round, group, options, callback) {
+  getTournamentRoundGroup: function(urlID, round, group, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -466,24 +366,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/tournament/' + urlID + '/' + round + '/' + group)
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Get details about a team match and players playing that match. After the match is finished there will be a link to each player's stats endpoint, in order to get up-to-date information about the player.
-   * 
-   * @param {string} id 
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  teamMatch: function(id, options, callback) {
+  getTeamMatch: function(id, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -492,25 +385,17 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/match/' + id)
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-  /**
-   * Get details about a team match and players playing that match. After the match is finished there will be a link to each player's stats endpoint, in order to get up-to-date information about the player.
-   * 
-   * @param {string} id 
-   * @param {string} board 
-   * @param {Object} [options] Additional options to be added.
-   * Chess.com allows for `callback` option with function name.
-   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @returns {Promise|undefined} Returns promise upon success.
-   */
-  teamMatchBoard: function(id, board, options, callback) {
+  getTeamMatchBoard: function(id, board, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -519,23 +404,187 @@ ChessWebAPI.prototype = {
       actualCallback = callback;
       actualOptions = options;
     }
+    if (!headers) headers = {};
 
     return WebApiRequest.builder()
       .withPath('/pub/match/' + id + '/' + board)
       .withQueryParameters(actualOptions)
+      .withHeaders(headers)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
 
-
-};
-
-ChessWebAPI._addMethods = function(methods) {
-  for (var i in methods) {
-    if (methods.hasOwnProperty(i)) {
-      this.prototype[i] = methods[i];
+  getTeamLiveMatch: function(id, options, callback, headers) {
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
     }
-  }
+    if (!headers) headers = {};
+
+    return WebApiRequest.builder()
+      .withPath('/pub/match/live/' + id)
+      .withQueryParameters(actualOptions)
+      .withHeaders(headers)
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
+  getTeamLiveMatchBoard: function(id, board, options, callback, headers) {
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
+    }
+    if (!headers) headers = {};
+
+    return WebApiRequest.builder()
+      .withPath('/pub/match/live/' + id + '/' + board)
+      .withQueryParameters(actualOptions)
+      .withHeaders(headers)
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
+  getCountry: function(iso, options, callback, headers) {
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
+    }
+    if (!headers) headers = {};
+
+    return WebApiRequest.builder()
+      .withPath('/pub/country/' + iso)
+      .withQueryParameters(actualOptions)
+      .withHeaders(headers)
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
+  getCountryPlayers: function(iso, options, callback, headers) {
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
+    }
+    if (!headers) headers = {};
+
+    return WebApiRequest.builder()
+      .withPath('/pub/country/' + iso + '/players')
+      .withQueryParameters(actualOptions)
+      .withHeaders(headers)
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
+  getCountryClubs: function(iso, options, callback, headers) {
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
+    }
+    if (!headers) headers = {};
+
+    return WebApiRequest.builder()
+      .withPath('/pub/country/' + iso + '/clubs')
+      .withQueryParameters(actualOptions)
+      .withHeaders(headers)
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
+  getDailyPuzzle: function(options, callback, headers) {
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
+    }
+    if (!headers) headers = {};
+
+    return WebApiRequest.builder()
+      .withPath('/pub/puzzle')
+      .withQueryParameters(actualOptions)
+      .withHeaders(headers)
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
+  getDailyPuzzleRandom: function(options, callback, headers) {
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
+    }
+    if (!headers) headers = {};
+
+    return WebApiRequest.builder()
+      .withPath('/pub/puzzle/random')
+      .withQueryParameters(actualOptions)
+      .withHeaders(headers)
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
+  getStreamers: function(options, callback, headers) {
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
+    }
+    if (!headers) headers = {};
+
+    return WebApiRequest.builder()
+      .withPath('/pub/streamers')
+      .withQueryParameters(actualOptions)
+      .withHeaders(headers)
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
+  getLeaderboards: function(options, callback, headers) {
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
+    }
+    if (!headers) headers = {};
+
+    return WebApiRequest.builder()
+      .withPath('/pub/leaderboards')
+      .withQueryParameters(actualOptions)
+      .withHeaders(headers)
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
 };
 
 module.exports = ChessWebAPI;
