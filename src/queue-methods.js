@@ -16,7 +16,11 @@ module.exports = {
             options: options ? options : {}, 
             priority: priority ? priority : 1,
         };
-        this.enqueue(request);
+        try {
+            this.enqueue(request);
+        } catch(error) {
+            throw error;
+        }
     },
 
     enqueue: function(request) {
@@ -28,7 +32,11 @@ module.exports = {
                 break;
             }
         if (!contain) this._requests.push(request);
-        if (!this._running) this.startRequests();
+        try {
+            if (!this._running) this.startRequests();
+        } catch(error) {
+            throw error;
+        }
     },
 
     dequeue: function() {

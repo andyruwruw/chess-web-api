@@ -178,7 +178,7 @@ ChessWebAPI.prototype = {
       .execute(HttpManager.get, actualCallback);
   },
 
-  getPlayerMultiGamePGN: function(username, options, callback, headers) {
+  getPlayerMultiGamePGN: function(username, year, month, options, callback, headers) {
     var actualCallback, actualOptions;
     if (typeof options === 'function' && !callback) {
       actualCallback = options;
@@ -199,6 +199,25 @@ ChessWebAPI.prototype = {
 
     return WebApiRequest.builder()
       .withPath('/pub/player/' + username + '/games/' + year + '/' + monthFormat + '/pgn')
+      .withQueryParameters(actualOptions)
+      .withHeaders(headers)
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
+  getPlayerClubs: function(username, options, callback, headers) {
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
+    }
+    if (!headers) headers = {};
+
+    return WebApiRequest.builder()
+      .withPath('/pub/player/' + username + '/clubs')
       .withQueryParameters(actualOptions)
       .withHeaders(headers)
       .build()
