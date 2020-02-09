@@ -229,6 +229,10 @@ trackGames();
 
 ## Helper Functions
 ---
+
+ALL DESCRIPTIONS / RESULTS WERE COPIED FROM [HERE](https://www.chess.com/news/view/published-data-api). IT'S HERE FOR EASE OF ACCESS ONLY. PLEASE GO THERE TO ENSURE THE RETURN VALUES HAVE NO BEEN CHANGED.
+
+---
 ### **.getPlayer(username, options, callback)**
 
 Get additional details about a player in a game.
@@ -446,6 +450,8 @@ Array of Live and Daily Chess games that a player has finished.
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
 | username | `string`   | Username of desired profile.                   |
+| year | `string | number`   | Year of matches.                   |
+| month | `string | number`   | Month of matches.                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -642,11 +648,15 @@ List of tournaments the player is registered, is attending or has attended in th
 
 Get additional details about a club.
 
+All club-based URLs use the club's "URL ID" to specify which club you want data for.
+
+The url-ID is the same as found in the URL for the club's web page on www.chess.com. For example, the url-ID of the Chess.com Developer's Club is chess-com-developer-community.
+
 #### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| urlID | `string`   | Club's unique urlID                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -681,7 +691,7 @@ List of club members (usernames and joined date timestamp), grouped by club-acti
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| urlID | `string`   | Club's unique urlID                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -719,7 +729,7 @@ List of daily and club matches, grouped by status (registered, in progress, fini
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| urlID | `string`   | Club's unique urlID                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -757,11 +767,15 @@ List of daily and club matches, grouped by status (registered, in progress, fini
 
 Get details about a daily, live and arena tournament.
 
+All tournaments-based URLs use the tournament's "URL ID" to specify which tournament you want data for.
+
+The url-ID is the same as found in the URL for the tournament's web page on www.chess.com. For example, the url-ID of the Chess.com Developer's Club is -33rd-chesscom-quick-knockouts-1401-1600
+
 #### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| urlID | `string`   | Tournaments's unique urlID                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -815,7 +829,8 @@ Get details about a tournament's round.
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| urlID | `string`   | Tournaments's unique urlID                   |
+| round | `string | number`   | Round number                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -844,7 +859,9 @@ Get details about a tournament's round group.
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| urlID | `string`   | Tournaments's unique urlID                   |
+| round | `string | number`   | Round number                   |
+| group | `string | number`   | Group number                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -891,11 +908,15 @@ Get details about a tournament's round group.
 
 Get details about a team match and players playing that match. After the match is finished there will be a link to each player's stats endpoint, in order to get up-to-date information about the player.
 
+All team matches-based URLs use the match "ID" to specify which match you want data for.
+
+The ID is the same as found in the URL for the team match web page on www.chess.com. For example, the ID WORLD LEAGUE Round 5: Romania vs USA Southwest is 12803.
+
 #### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| id | `string | number`   | Id of desired team match.                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -1025,7 +1046,8 @@ Get details about a team match board. Only in-progress or finished games will be
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| id | `string | number`   | Id of desired team match.                   |
+| board | `string | number`   | Board identifier                  |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -1073,11 +1095,15 @@ Get details about a team match board. Only in-progress or finished games will be
 
 Get details about a team match and players playing that match. After the match is finished there will be a link to each player's stats endpoint, in order to get up-to-date information about the player.
 
+All live team matches-based URLs use the match "ID" to specify which match you want data for.
+
+The ID is the same as found in the URL for the team match web page on www.chess.com. For example, the ID Friendly 5+2 is 5833.
+
 #### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| id | `string | number`   | Id of desired live team match.                  |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -1283,7 +1309,8 @@ Get details about a team match board. Only in-progress or finished games will be
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| id | `string | number`   | Id of desired live team match.                  |
+| board | `string | number`   | Board identifier                  |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -1353,11 +1380,15 @@ Get additional details about a country.
 
 All country-based URLs use the country's 2-character ISO 3166 code (capitalized) to specify which country you want data for.
 
+Find their [code's here](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
+
+Additional countries not listed on that official list have been posted by [Chess.com](https://www.chess.com/news/view/published-data-api) (scroll down to this endpoint).
+
 #### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| iso | `string`   | Country's ISO identifier                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -1380,7 +1411,7 @@ List of usernames for players who identify themselves as being in this country.
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| iso | `string`   | Country's ISO identifier                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -1403,7 +1434,7 @@ List of URLs for clubs identified as being in or associated with this country.
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
+| iso | `string`   | Country's ISO identifier                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -1426,7 +1457,6 @@ Information about the daily puzzle found in [www.chess.com](www.chess.com).
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -1452,7 +1482,6 @@ Information about a randomly picked daily puzzle.
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -1478,7 +1507,6 @@ Information about Chess.com streamers.
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 
@@ -1506,7 +1534,6 @@ It displays information about top 50 player for daily and live games, tactics an
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
 | options  | `object`   | Added options to the end of the URL (optional) |
 | callback | `function` | Function to be called with result (optional)   |
 

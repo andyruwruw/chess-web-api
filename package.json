@@ -2,7 +2,7 @@
   "name": "chess-web-api",
   "version": "1.0.0",
   "description": "chess.com api wrapper",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "node test.js"
   },

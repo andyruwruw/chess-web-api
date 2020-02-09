@@ -5,6 +5,8 @@ let chessAPI = new ChessAPI({queue: true});
 let tests = 29;
 let passed = 0;
 
+// Just testing that I get results back.
+
 let logResults = function(response) {
     if ('body' in response) {
         passed += 1;
