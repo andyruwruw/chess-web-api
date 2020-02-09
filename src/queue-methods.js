@@ -7,14 +7,22 @@ module.exports = {
     },
 
     dispatch: function(method, callback, parameters, options, priority) {
-        if (!method || typeof(callback) != 'function') throw "dispatch requires callback function";
+        if (!method || typeof(method) != 'function') throw "dispatch requires request function";
         if (!callback || typeof(callback) != 'function') throw "dispatch requires callback function";
+        var actualParameters, actualOptions, actualPriority;
+        var items = [parameters, options, priority];
+        for (let i = 0; i < items.length; i++) {
+          if (!items[i]) continue;
+          if (items[i] instanceof Array) actualParameters = items[i];
+          else if (typeof items[i] == 'object') actualOptions = items[i];
+          else if (typeof items[i] == 'integer') actualPriority = items[i];
+        }
         let request = {
             method: method,
             callback: callback,
-            parameters: parameters ? parameters : [], 
-            options: options ? options : {}, 
-            priority: priority ? priority : 1,
+            parameters: actualParameters ? actualParameters : [], 
+            options: actualOptions ? actualOptions : {}, 
+            priority: actualPriority ? actualPriority : 1,
         };
         try {
             this.enqueue(request);
