@@ -28,43 +28,43 @@ I'll try to keep this library updated if they're API changes, feel free to submi
 The wrapper includes helper functions to do the following: 
 
 #### Profile Data
-- [Profile](#**.getPlayer(username,-options,-callback)**)
-- [Stats](#**.getPlayerStats(username,-options,-callback)**)
-- [Player online status](#**.getPlayerOnline(username,-options,-callback)**)
+- [Profile](#.getPlayer(username,-options,-callback))
+- [Stats](#.getPlayerStats(username,-options,-callback))
+- [Player online status](#.getPlayerOnline(username,-options,-callback))
 #### Player Games
-- [Current Daily Chess](#**.getPlayerCurrentDailyChess(username--options,-callback)**)
-- [Concise To-Move Daily Chess](#**.getPlayerToMoveDailyChess(username,-options,-callback)**)
-- [Available Archives](#**.getPlayerMonthlyArchives(username,-options,-callback)**)
-- [Monthly Archives](#**.getPlayerCompleteMonthlyArchives(username,-year,-month,-options,-callback)**)
-- [Multi-Game PGN Download](#**.getPlayerMultiGamePGN(username,-options,-callback)**)
+- [Current Daily Chess](#.getPlayerCurrentDailyChess(username,-options,-callback))
+- [Concise To-Move Daily Chess](#.getPlayerToMoveDailyChess(username,-options,-callback))
+- [Available Archives](#.getPlayerMonthlyArchives(username,-options,-callback))
+- [Monthly Archives](#.getPlayerCompleteMonthlyArchives(username,-year,-month,-options,-callback))
+- [Multi-Game PGN Download](#.getPlayerMultiGamePGN(username,-options,-callback))
 #### Player Participation
-- [List of Clubs](#**.getPlayerClubs(username,-options,-callback)**)
-- [Team Matches](#**.getPlayerMatches(username,-options,-callback)**)
-- [Tournaments](#**.getPlayerTournaments(username,-options,-callback)**)
+- [List of Clubs](#.getPlayerClubs(username,-options,-callback))
+- [Team Matches](#.getPlayerMatches(username,-options,-callback))
+- [Tournaments](#.getPlayerTournaments(username,-options,-callback))
 #### Clubs
-- [Club Profile](#**.getClub(urlID,-options,-callback)**)
-- [List of members, by activity level](#**.getClubMembers(urlID,-options,-callback)**)
-- [Team Matches](#**.getClubMatches(urlID,-options,-callback)**)
+- [Club Profile](#.getClub(urlID,-options,-callback))
+- [List of members, by activity level](#.getClubMembers(urlID,-options,-callback))
+- [Team Matches](#.getClubMatches(urlID,-options,-callback))
 #### Tournaments
-- [Tournament](#**.getTournament(urlID,-options,-callback)**)
-- [Tournament Round](#**.getTournamentRound(urlID,-round,-options,-callback)**)
-- [Tournament Round's Group](#**.getTournamentRoundGroup(urlID,-round,-group,-options,-callback)**)
+- [Tournament](#.getTournament(urlID,-options,-callback))
+- [Tournament Round](#.getTournamentRound(urlID,-round,-options,-callback))
+- [Tournament Round's Group](#.getTournamentRoundGroup(urlID,-round,-group,-options,-callback))
 #### Team Matches
-- [Daily Team Match](#**.getTeamMatch(id,-options,-callback)**)
-- [Daily Team Match Board](#**.getTeamMatchBoard(id,-board,-options,-callback)**)
-- [Live Team Match](#**.getTeamLiveMatch(id,-options,-callback)**)
-- [Live Team Match Board](#**.getTeamLiveMatchBoard(id,-board,-options,-callback)**)
+- [Daily Team Match](#.getTeamMatch(id,-options,-callback))
+- [Daily Team Match Board](#.getTeamMatchBoard(id,-board,-options,-callback))
+- [Live Team Match](#.getTeamLiveMatch(id,-options,-callback))
+- [Live Team Match Board](#.getTeamLiveMatchBoard(id,-board,-options,-callback))
 #### Countries
-- [Country Profile](#**.getCountry(iso,-options,-callback)**)
-- [List of Players](#**.getCountryPlayers(iso,-options,-callback)**)
-- [List of Clubs](#**.getCountryClubs(iso,-options,-callback)**)
+- [Country Profile](#.getCountry(iso,-options,-callback))
+- [List of Players](#.getCountryPlayers(iso,-options,-callback))
+- [List of Clubs](#.getCountryClubs(iso,-options,-callback))
 #### Daily Puzzle
-- [Daily Puzzle](#**.getDailyPuzzle(options,-callback)**)
-- [Random Daily Puzzle](#**.getDailyPuzzleRandom(options,-callback)**)
+- [Daily Puzzle](#.getDailyPuzzle(options,-callback))
+- [Random Daily Puzzle](#.getDailyPuzzleRandom(options,-callback))
 #### General
-- [Streamers](#**.getStreamers(options,-callback)**)
-- [Leaderboards](#**.getLeaderboards(options,-callback)**)
-- [Titled Players](#**.getTitledPlayers(titleAbbrev,-options,-callback)**)
+- [Streamers](#.getStreamers(options,-callback))
+- [Leaderboards](#.getLeaderboards(options,-callback))
+- [Titled Players](#.getTitledPlayers(titleAbbrev,-options,-callback))
 
 ---
 
@@ -330,7 +330,7 @@ Get ratings, win/loss, and other stats about a player's game play, tactics, less
 ---
 ### **.getPlayerOnline(username, options, callback)**
 
-Tells if an unser has been online in the last five minutes.
+Tells if an user has been online in the last five minutes.
 
 #### Parameters:
 
@@ -407,11 +407,11 @@ Array of Daily Chess games where it is the player's turn to act.
     body: {
         games: [
             {
-            url: "string", // URL of this game
-            move_by: 1254438881, // timestamp of the when the move must be made by
-                                    // this is "0" if it is not this player's turn
-            draw_offer: true, // (optional) this player has received a draw offer
-            last_activity: 1509810789, // timestamp of the last activity on the game
+                url: "string", // URL of this game
+                move_by: 1254438881, // timestamp of the when the move must be made by
+                                        // this is "0" if it is not this player's turn
+                draw_offer: true, // (optional) this player has received a draw offer
+                last_activity: 1509810789, // timestamp of the last activity on the game
             }
         ]
     }
