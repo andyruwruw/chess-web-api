@@ -367,22 +367,22 @@ Array of Daily Chess games that a player is currently playing.
     body: {
         games: [
             {
-            white: "string", // URL of the white player's profile
-            black: "string", // URL of the black player's profile
-            url: "string", // URL of this game
-            fen: "string", // current FEN
-            pgn: "string", // current PGN
-            turn: "black", // player to move
-            move_by: 1501765498, // timestamp of when the next move must be made
-                                    // this is "0" if the player-to-move is on vacation
-            draw_offer: "black", // (optional) player who has made a draw offer
-            last_activity: 1509810789, // timestamp of the last activity on the game
-            start_time: 1254438881, // timestamp of the game start (Daily Chess only)
-            time_control: "string", // PGN-compliant time control
-            time_class: "string", // time-per-move grouping, used for ratings
-            rules: "string", // game variant information (e.g., "chess960")      
-            tournament: "string", //URL pointing to tournament (if available),  
-            match: "string" //URL pointing to team match (if available)
+                white: "string", // URL of the white player's profile
+                black: "string", // URL of the black player's profile
+                url: "string", // URL of this game
+                fen: "string", // current FEN
+                pgn: "string", // current PGN
+                turn: "black", // player to move
+                move_by: 1501765498, // timestamp of when the next move must be made
+                vacation: 0, // this is "0" if the player-to-move is on vacation
+                draw_offer: "black", // (optional) player who has made a draw offer
+                last_activity: 1509810789, // timestamp of the last activity on the game
+                start_time: 1254438881, // timestamp of the game start (Daily Chess only)
+                time_control: "string", // PGN-compliant time control
+                time_class: "string", // time-per-move grouping, used for ratings
+                rules: "string", // game variant information (e.g., "chess960")      
+                tournament: "string", //URL pointing to tournament (if available),  
+                match: "string" //URL pointing to team match (if available)
             }
         ]
     }
