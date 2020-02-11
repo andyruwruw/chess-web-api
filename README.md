@@ -157,7 +157,7 @@ var chessAPI = new ChessWebAPI({
 });
 
 let printResults = function(response) {
-    console.log(response.data);
+    console.log(response.body);
 }
 
 chessAPI.dispatch(chessAPI.getPlayer, printResults, ["andyruwruw"], {}, 1);
