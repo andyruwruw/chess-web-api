@@ -161,7 +161,7 @@ let printResults = function(response) {
 }
 
 chessAPI.dispatch(chessAPI.getPlayer, printResults, ["andyruwruw"], {}, 1);
-chessAPI.dispatch(chessAPI.getTitled, printResults, ["GM"], {}, 1);
+chessAPI.dispatch(chessAPI.getTitledPlayers, printResults, ["GM"], {}, 1);
 chessAPI.dispatch(chessAPI.getPlayerCurrentDailyChess, printResults, ["andyruwruw"], {}, 1);
 chessAPI.dispatch(chessAPI.getPlayerCompleteMonthlyArchives, printResults, ["andyruwruw", 2019, 10], {}, 1);
 ```
