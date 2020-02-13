@@ -1,4 +1,4 @@
-let ChessAPI = require('../src/server.js');
+let ChessAPI = require('chess-web-api');
 let axios = require('axios');
 let chessAPI = new ChessAPI({queue: true});
 let comparing = function (test, valid) {
