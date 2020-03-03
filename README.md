@@ -116,6 +116,46 @@ chessAPI.getTitledPlayers('GM')
 
 [Chess.com's API](https://www.chess.com/news/view/published-data-api#game-results) doesn't rate limit unless you've made parallel requests. If you have more than two active requests at a time, you'll recieve a `429 Too Many Requests` error. 
 
+To add something to the queue, use the method `dispatch`.
+
+## `.dispatch(method, callback, parameters, options, priority, callbackParameters)`
+
+#### Parameters:
+
+| Name       | Type       | Description                                       |
+|------------|------------|---------------------------------------------------|
+| method     | `function` | `chess-web-api` function for request.             |
+| callback   | `function` | Function to be called with result                 |
+| parameters | `array`    | Array of parameters to be passed into the method. |
+| options    | `object`   | Added options to the end of the URL (optional)    |
+| priority   | `number`   | Priority in queue (1 is heighest priority) (optional)|
+| callbackParameters   | `array`   | Array of parameters to be passed on to the callback method along with the response. (optional)|
+
+#### Returns `object`
+
+Example: 
+
+```
+var ChessWebAPI = require('chess-web-api');
+
+var chessAPI = new ChessWebAPI({
+    queue: true,
+});
+
+let printResults = function(response, sampleParameter1, sampleParameter2) {
+    console.log(response.body);
+    console.log(sampleParameter1);
+    console.log(sampleParameter2);
+}
+
+chessAPI.dispatch(chessAPI.getPlayer, printResults, ["andyruwruw"], {}, 1, ["callbackParameter", "anotherCallbackParameter"]);
+chessAPI.dispatch(chessAPI.getTitledPlayers, printResults, ["GM"]);
+chessAPI.dispatch(chessAPI.getPlayerCurrentDailyChess, printResults, ["andyruwruw"], ["callbackParameter"]);
+chessAPI.dispatch(chessAPI.getPlayerCompleteMonthlyArchives, printResults, ["andyruwruw", 2019, 10], {}, ["callback parameter"]);
+```
+
+The `dispatch` function determines the difference between parameters to be passed into the `chessAPI method` vs the `callback function` by order. The **first array** passed into dispatch will always be passed into the `chessAPI method`. The **second** will always be sent to the `callback function`, with the **response as the first parameter**. See example above.
+
 If you inicialize your `ChessWebAPI` with the queue enabled, you can still call any of the regular functions without using the queue.
 
 ```
@@ -133,41 +173,11 @@ chessAPI.getTitledPlayers('GM')
     });
 ```
 
-To add something to the queue, use the method `dispatch`.
-
-#### Parameters:
-
-| Name       | Type       | Description                                       |
-|------------|------------|---------------------------------------------------|
-| method     | `function` | `chess-web-api` function for request.             |
-| callback   | `function` | Function to be called with result                 |
-| parameters | `array`    | Array of parameters to be passed into the method. |
-| options    | `object`   | Added options to the end of the URL (optional)    |
-| priority   | `number`   | Priority in queue (1 is heighest priority) (optional)|
-
-#### Returns `object`
-
-Example: 
-
-```
-var ChessWebAPI = require('chess-web-api');
-
-var chessAPI = new ChessWebAPI({
-    queue: true,
-});
-
-let printResults = function(response) {
-    console.log(response.body);
-}
-
-chessAPI.dispatch(chessAPI.getPlayer, printResults, ["andyruwruw"], {}, 1);
-chessAPI.dispatch(chessAPI.getTitledPlayers, printResults, ["GM"], {}, 1);
-chessAPI.dispatch(chessAPI.getPlayerCurrentDailyChess, printResults, ["andyruwruw"], {}, 1);
-chessAPI.dispatch(chessAPI.getPlayerCompleteMonthlyArchives, printResults, ["andyruwruw", 2019, 10], {}, 1);
-```
 ---
 
 ## ifChanged Function
+
+## `.ifChanged(etag, method, parameters, options, callback)`
 
 #### Parameters:
 

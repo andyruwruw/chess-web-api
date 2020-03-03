@@ -6,14 +6,18 @@ module.exports = {
         this._running = false;
     },
 
-    dispatch: function(method, callback, parameters, options, priority) {
+    dispatch: function(method, callback, parameters, options, callbackParameters, priority) {
         if (!method || typeof(method) != 'function') throw "dispatch requires request function";
         if (!callback || typeof(callback) != 'function') throw "dispatch requires callback function";
-        var actualParameters, actualOptions, actualPriority;
-        var items = [parameters, options, priority];
+        var actualParameters = null;
+        var actualOptions = null;
+        var actualPriority = null; 
+        var actualCallbackParameters = null;
+        var items = [parameters, options, priority, callbackParameters];
         for (let i = 0; i < items.length; i++) {
           if (!items[i]) continue;
-          if (items[i] instanceof Array) actualParameters = items[i];
+          if (items[i] instanceof Array && actualParameters == null) actualParameters = items[i];
+          else if (items[i] instanceof Array && actualParameters != null) actualCallbackParameters = items[i];
           else if (typeof items[i] == 'object') actualOptions = items[i];
           else if (typeof items[i] == 'integer') actualPriority = items[i];
         }
@@ -23,6 +27,7 @@ module.exports = {
             parameters: actualParameters ? actualParameters : [], 
             options: actualOptions ? actualOptions : {}, 
             priority: actualPriority ? actualPriority : 1,
+            callbackParamerters: actualCallbackParameters ? actualCallbackParameters : [],
         };
         try {
             this.enqueue(request);
@@ -61,7 +66,7 @@ module.exports = {
                 let method = request.method;
                 let callback = request.callback;
                 let response = await method(...request.parameters, request.options);
-                callback(response);
+                callback(response, ...request.callbackParamerters);
             }
             this._running = false;
         } catch(error) {
