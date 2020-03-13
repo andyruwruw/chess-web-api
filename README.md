@@ -13,7 +13,7 @@
 
 # Overview
 
-chess-web-api is a lightweight wrapper for the [Chess.com Published-Data API](https://www.chess.com/news/view/published-data-api). 
+chess-web-api is a lightweight unoffical wrapper for the [Chess.com Published-Data API](https://www.chess.com/news/view/published-data-api). 
 
 It includes helper functions for [all the endpoints](#all-functions), such as [player profile data](#get-players-profile), [current daily chess](#get-players-current-daily-chess-games), [monthly archives](#get-players-completed-monthly-archives), [clubs](#get-a-club), [tournaments](#get-a-tournament) and [more](#all-functions).
 
