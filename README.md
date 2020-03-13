@@ -1,74 +1,100 @@
-# chess-web-api
+<div align="center">
+    <image  width="350px" align="center"src="./documentation/images/logo.png"/><br/>
+</div>
 
-This is a lightweight wrapper for the [Chess.com Published-Data API](https://www.chess.com/news/view/published-data-api). It includes helper functions for **all the endpoints**, such as player profile data, current daily chess, monthly archives, clubs, tournaments and more.
+<p align="center">Lightweight wrapper for the Chess.com Published-Data API</p>
 
-Please read their [notes on data currency, language and rate limits on parallel requests](https://www.chess.com/news/view/published-data-api). They're good to know before you implement this into your work.
+<p align="center" style="margin: 0px auto; margin-top: 15px; max-width: 600px">
+    <a href="https://melophile.org"><img src="https://img.shields.io/npm/v/chess-web-api"></a>
+    <a href="#"><img src="https://img.shields.io/npm/dt/chess-web-api"/></a>
+    <a href="https://melophile.org"><img src="https://img.shields.io/github/repo-size/andyruwruw/chess-web-api"></a>
+    <a href="https://melophile.org"><img src="https://img.shields.io/github/issues-raw/andyruwruw/chess-web-api"></a>
+</p>
 
-`chess-web-api` can be inicialized with a [priority queue](#Usage-(With-Queue)) for requests to prevent parellel requests. Using the queue requires passing in a `callback function` for the result to be sent to.
+# Overview
 
-[Chess.com Published-Data API](https://www.chess.com/news/view/published-data-api) also allows clients to provide an `etag` from a previous response to check if data since the last request has changed. This has been implemented into `chess-web-api`'s [ifChanged function](#ifChanged-Function) to make any of the requests.
+chess-web-api is a lightweight wrapper for the [Chess.com Published-Data API](https://www.chess.com/news/view/published-data-api). 
+
+It includes helper functions for [all the endpoints](#All-Functions), such as [player profile data](#Get-Player's-Profile), [current daily chess](#Get-Player's-Current-Daily-Chess-Games), [monthly archives](#Get-Player's-Completed-Monthly-Archives), [clubs](#Get-a-Club), [tournaments](#Get-a-Tournament) and [more](#All-Functions).
+
+Please read Chess.com's [notes on data currency, language and rate limits on parallel requests](https://www.chess.com/news/view/published-data-api). They're good to know before you implement this into your work.
+
 
 I'll try to keep this library updated if they're API changes, feel free to submit any [issues](https://github.com/andyruwruw/chess-web-api/issues).
 
----
+# Additional Features
 
-## Table of Contents
+## Priority Queue
+**chess-web-api** can be inicialized with a [priority queue](#Usage-(With-Queue)) for requests to prevent parellel requests. Requests will be sent as soon as the previous returns. 
 
-- [Features](#Features)
-- [Installation](#Installation)
-- [Usage (Without Queue)](#Usage-(Without-Queue))
-- [Usuage (With Queue)](#Usage-(With-Queue))
-- [ifChanged Function](#ifChanged-Function)
-- [Helper Functions](#Helper-Functions)
+Using the queue requires passing in a **callback function** for the result to be sent to.
 
----
+## Query for Changes
 
-## Features
+[Chess.com Published-Data API](https://www.chess.com/news/view/published-data-api) also allows clients to provide an **etag** from a previous response to check if data since the last request has changed. 
 
-The wrapper includes helper functions to do the following: 
+This has been implemented into chess-web-api's [ifChanged function](#query-doc) to make any of the requests.
 
-#### Profile Data
-- [Profile](#.getPlayer(username,-options,-callback))
-- [Stats](#.getPlayerStats(username,-options,-callback))
-- [Player online status](#.getPlayerOnline(username,-options,-callback))
-#### Player Games
-- [Current Daily Chess](#.getPlayerCurrentDailyChess(username,-options,-callback))
-- [Concise To-Move Daily Chess](#.getPlayerToMoveDailyChess(username,-options,-callback))
-- [Available Archives](#.getPlayerMonthlyArchives(username,-options,-callback))
-- [Monthly Archives](#.getPlayerCompleteMonthlyArchives(username,-year,-month,-options,-callback))
-- [Multi-Game PGN Download](#.getPlayerMultiGamePGN(username,-options,-callback))
-#### Player Participation
-- [List of Clubs](#.getPlayerClubs(username,-options,-callback))
-- [Team Matches](#.getPlayerMatches(username,-options,-callback))
-- [Tournaments](#.getPlayerTournaments(username,-options,-callback))
-#### Clubs
-- [Club Profile](#.getClub(urlID,-options,-callback))
-- [List of members, by activity level](#.getClubMembers(urlID,-options,-callback))
-- [Team Matches](#.getClubMatches(urlID,-options,-callback))
-#### Tournaments
-- [Tournament](#.getTournament(urlID,-options,-callback))
-- [Tournament Round](#.getTournamentRound(urlID,-round,-options,-callback))
-- [Tournament Round's Group](#.getTournamentRoundGroup(urlID,-round,-group,-options,-callback))
-#### Team Matches
-- [Daily Team Match](#.getTeamMatch(id,-options,-callback))
-- [Daily Team Match Board](#.getTeamMatchBoard(id,-board,-options,-callback))
-- [Live Team Match](#.getTeamLiveMatch(id,-options,-callback))
-- [Live Team Match Board](#.getTeamLiveMatchBoard(id,-board,-options,-callback))
-#### Countries
-- [Country Profile](#.getCountry(iso,-options,-callback))
-- [List of Players](#.getCountryPlayers(iso,-options,-callback))
-- [List of Clubs](#.getCountryClubs(iso,-options,-callback))
-#### Daily Puzzle
-- [Daily Puzzle](#.getDailyPuzzle(options,-callback))
-- [Random Daily Puzzle](#.getDailyPuzzleRandom(options,-callback))
-#### General
-- [Streamers](#.getStreamers(options,-callback))
-- [Leaderboards](#.getLeaderboards(options,-callback))
-- [Titled Players](#.getTitledPlayers(titleAbbrev,-options,-callback))
 
----
 
-## Installation
+# Documentation
+
+- [Available Services](#Available-Services)
+- Getting Started
+    - [Installation](#Installation)
+    - [Usage Without Queue](#Usage-(Without-Queue))
+    - [Usage With Queue](#Usage-(With-Queue))
+- [Query for Changes](#query-doc)
+- [All Functions](#All-Functions)
+
+
+
+# Available Services
+
+The wrapper includes functions to retrieve the following: 
+
+### Profile Data
+- [Profile](#Get-Player's-Profile)
+- [Stats](#Get-Player's-Statistics)
+- [Player online status](#Get-Player's-Online-Status)
+### Player Games
+- [Current Daily Chess](#Get-Player's-Current-Daily-Chess-Games)
+- [Concise To-Move Daily Chess](#Get-Player's-Concise-To-Move-Daily-Chess-Games)
+- [Available Archives](#Get-Player's-Available-Monthly-Archives)
+- [Monthly Archives](#Get-Player's-Completed-Monthly-Archives)
+- [Multi-Game PGN Download](#Get-Player's-Month-Multi-Game-PGNs)
+### Player Participation
+- [List of Clubs](#Get-Player's-Clubs)
+- [Team Matches](#Get-Player's-Matches)
+- [Tournaments](#Get-Player's-Tournaments)
+### Clubs
+- [Club Profile](#Get-a-Club)
+- [List of members, by activity level](#Get-a-Club's-Members)
+- [Team Matches](#Get-a-Club's-Matches)
+### Tournaments
+- [Tournament](#Get-a-Tournament)
+- [Tournament Round](#Get-a-Tournament-Round)
+- [Tournament Round's Group](#Get-a-Tournament-Round's-Group)
+### Team Matches
+- [Daily Team Match](#Get-a-Team-Match)
+- [Daily Team Match Board](#Get-a-Team-Match-Board)
+- [Live Team Match](#Get-a-Live-Team-Match)
+- [Live Team Match Board](#Get-a-Live-Team-Match-Board)
+### Countries
+- [Country Profile](#Get-a-Country)
+- [List of Players](#Get-a-Country's-Players)
+- [List of Clubs](#Get-a-Country's-Clubs)
+### Daily Puzzle
+- [Daily Puzzle](#Get-the-Daily-Puzzle)
+- [Random Daily Puzzle](#Get-a-Random-Puzzle)
+### General
+- [Streamers](#Get-List-of-Streamers)
+- [Leaderboards](#Get-Leaderboards)
+- [Titled Players](#Get-Titled-Players)
+
+
+
+# Installation
 
 Install via node:
 
@@ -90,7 +116,7 @@ var chessAPI = new ChessWebAPI({
 
 ## Usage (Without Queue)
 
-To use `chess-web-api`, once you've create an instance of the library, call any of the functions on it.
+To use chess-web-api, once you've create an instance of the library, call any of the functions on it.
 ```
 var ChessWebAPI = require('chess-web-api');
 
@@ -114,26 +140,26 @@ chessAPI.getTitledPlayers('GM')
 
 ## Usage (With Queue)
 
-[Chess.com's API](https://www.chess.com/news/view/published-data-api#game-results) doesn't rate limit unless you've made parallel requests. If you have more than two active requests at a time, you'll recieve a `429 Too Many Requests` error. 
+[Chess.com's API](https://www.chess.com/news/view/published-data-api#game-results) doesn't rate limit unless you've made parallel requests. If you have more than two active requests at a time, you'll recieve a **429 Too Many Requests** error. 
 
-To add something to the queue, use the method `dispatch`.
-
-## `.dispatch(method, callback, parameters, options, priority, callbackParameters)`
-
-#### Parameters:
+To add something to the queue, use the method **dispatch**.
+```
+.dispatch(method, callback, parameters, options, priority, callbackParameters)
+```
+### Parameters:
 
 | Name       | Type       | Description                                       |
 |------------|------------|---------------------------------------------------|
-| method     | `function` | `chess-web-api` function for request.             |
-| callback   | `function` | Function to be called with result                 |
-| parameters | `array`    | Array of parameters to be passed into the method. |
-| options    | `object`   | Added options to the end of the URL (optional)    |
-| priority   | `number`   | Priority in queue (1 is heighest priority) (optional)|
-| callbackParameters   | `array`   | Array of parameters to be passed on to the callback method along with the response. (optional)|
+| method     | **function** | **chess-web-api** function for request.             |
+| callback   | **function** | Function to be called with result                 |
+| parameters | **array**    | Array of parameters to be passed into the method. |
+| options    | **object**   | Added options to the end of the URL (optional)    |
+| priority   | **number**   | Priority in queue (1 is heighest priority) (optional)|
+| callbackParameters   | **array**   | Array of parameters to be passed on to the callback method along with the response. (optional)|
 
-#### Returns `object`
+### Returns: **object**
 
-Example: 
+### Example: 
 
 ```
 var ChessWebAPI = require('chess-web-api');
@@ -154,9 +180,13 @@ chessAPI.dispatch(chessAPI.getPlayerCurrentDailyChess, printResults, ["andyruwru
 chessAPI.dispatch(chessAPI.getPlayerCompleteMonthlyArchives, printResults, ["andyruwruw", 2019, 10], {}, ["callback parameter"]);
 ```
 
-The `dispatch` function determines the difference between parameters to be passed into the `chessAPI method` vs the `callback function` by order. The **first array** passed into dispatch will always be passed into the `chessAPI method`. The **second** will always be sent to the `callback function`, with the **response as the first parameter**. See example above.
+The dispatch function determines the difference between **parameters** to be passed into the **chessAPI method** vs the **callback function** by order. 
 
-If you inicialize your `ChessWebAPI` with the queue enabled, you can still call any of the regular functions without using the queue.
+The **first array** passed into dispatch will always be passed into the **chessAPI method**. 
+
+The **second array** will always be sent to the **callback function**, with the **response to the request as the first parameter**. See example above.
+
+If you inicialize your **ChessWebAPI** with the queue enabled, you can still call any of the regular functions without using the queue.
 
 ```
 var ChessWebAPI = require('chess-web-api');
@@ -173,27 +203,28 @@ chessAPI.getTitledPlayers('GM')
     });
 ```
 
----
 
-## ifChanged Function
 
-## `.ifChanged(etag, method, parameters, options, callback)`
+<h1 id="query-doc">Query for Changes</h1>
+```
+.ifChanged(etag, method, parameters, options, callback)
+```
 
-#### Parameters:
+### Parameters:
 
 | Name       | Type       | Description                                       |
 |------------|------------|---------------------------------------------------|
-| etag       | `string`   | ID of last request made. Found in the header.     |
-| method     | `function` | `chess-web-api` function for request.             |
-| parameters | `array`    | Array of parameters to be passed into the method. |
-| options    | `object`   | Added options to the end of the URL (optional)    |
-| callback   | `function` | Function to be called with result (optional)      |
+| etag       | **string**   | ID of last request made. Found in the header.     |
+| method     | **function** | **chess-web-api** function for request.             |
+| parameters | **array**    | Array of parameters to be passed into the method. |
+| options    | **object**   | Added options to the end of the URL (optional)    |
+| callback   | **function** | Function to be called with result (optional)      |
 
-#### Returns `Object`
+### Returns: **Object**
 
-`ifChanged` allows you to make any of the helper functions with the added parameter of the `etag` provided in the header of the last simular request.
+**ifChanged** allows you to make any of the helper functions with the added parameter of the **etag** provided in the header of the last simular request.
 
-`ifChanged` will return either of the following:
+ifChanged will return either of the following:
 
 ```
 // If data has changed, response is attatched.
@@ -235,27 +266,30 @@ var checkGames = async function() {
 
 trackGames();
 ```
+
+
+# All Functions
+
+**All descriptions / results were copied from [here](https://www.chess.com/news/view/published-data-api). It's here for ease of access only. Please go to the site to ensure the return values have not been changed.**
+
 ---
+## Get Player's Profile
+```
+.getPlayer(username, options, callback)
+```
 
-## Helper Functions
----
+### Description: 
+*Get additional details about a player in a game.*
 
-ALL DESCRIPTIONS / RESULTS WERE COPIED FROM [HERE](https://www.chess.com/news/view/published-data-api). IT'S HERE FOR EASE OF ACCESS ONLY. PLEASE GO THERE TO ENSURE THE RETURN VALUES HAVE NO BEEN CHANGED.
-
----
-### **.getPlayer(username, options, callback)**
-
-Get additional details about a player in a game.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| username | **string**   | Username of desired profile.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns:
 ```
 {
     body: {
@@ -279,19 +313,24 @@ Get additional details about a player in a game.
 }
 ```
 ---
-### **.getPlayerStats(username, options, callback)**
 
-Get ratings, win/loss, and other stats about a player's game play, tactics, lessons and Puzzle Rush score.
+## Get Player's Statistics
 
-#### Parameters:
+```
+.getPlayerStats(username, options, callback)
+```
+### Description: 
+*Get ratings, win/loss, and other stats about a player's game play, tactics, lessons and Puzzle Rush score.*
+
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| username | **string**   | Username of desired profile.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -338,19 +377,24 @@ Get ratings, win/loss, and other stats about a player's game play, tactics, less
 }
 ```
 ---
-### **.getPlayerOnline(username, options, callback)**
 
-Tells if an user has been online in the last five minutes.
+## Get Player's Online Status
 
-#### Parameters:
+```
+.getPlayerOnline(username, options, callback)
+```
+### Description: 
+*Tells if an user has been online in the last five minutes.*
+
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| username | **string**   | Username of desired profile.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -359,19 +403,23 @@ Tells if an user has been online in the last five minutes.
 }
 ```
 ---
-### **.getPlayerCurrentDailyChess(username, options, callback)**
+## Get Player's Current Daily Chess Games
 
-Array of Daily Chess games that a player is currently playing.
+```
+.getPlayerCurrentDailyChess(username, options, callback)
+```
+### Description: 
+*Array of Daily Chess games that a player is currently playing.*
 
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| username | **string**   | Username of desired profile.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -399,19 +447,22 @@ Array of Daily Chess games that a player is currently playing.
 }
 ```
 ---
-### **.getPlayerToMoveDailyChess(username, options, callback)**
+## Get Player's Concise To-Move Daily Chess Games
+```
+.getPlayerToMoveDailyChess(username, options, callback)
+```
+### Description: 
+*Array of Daily Chess games where it is the player's turn to act.*
 
-Array of Daily Chess games where it is the player's turn to act.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| username | **string**   | Username of desired profile.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -428,19 +479,22 @@ Array of Daily Chess games where it is the player's turn to act.
 }
 ```
 ---
-### **.getPlayerMonthlyArchives(username, options, callback)**
+## Get Player's Available Monthly Archives
+```
+.getPlayerMonthlyArchives(username, options, callback)
+```
+### Description: 
+*Array of monthly archives available for this player.*
 
-Array of monthly archives available for this player.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| username | **string**   | Username of desired profile.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -451,21 +505,24 @@ Array of monthly archives available for this player.
 }
 ```
 ---
-### **.getPlayerCompleteMonthlyArchives(username, year, month, options, callback)**
+## Get Player's Completed Monthly Archives
+```
+.getPlayerCompleteMonthlyArchives(username, year, month, options, callback)
+```
+### Description: 
+*Array of Live and Daily Chess games that a player has finished.*
 
-Array of Live and Daily Chess games that a player has finished.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
-| year | `string | number`   | Year of matches.                   |
-| month | `string | number`   | Month of matches.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| username | **string**   | Username of desired profile.                   |
+| year | **string | number**   | Year of matches.                   |
+| month | **string | number**   | Month of matches.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -495,19 +552,24 @@ Array of Live and Daily Chess games that a player has finished.
 }
 ```
 ---
-### **.getPlayerMultiGamePGN(username, options, callback)**
+## Get Player's Month Multi Game PGNs
+```
+.getPlayerMultiGamePGN(username, year, month, options, callback)
+```
+### Description: 
+*Standard multi-game format PGN containing all games for a month.*
 
-Standard multi-game format PGN containing all games for a month.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| username | **string**   | Username of desired profile.                   |
+| year | **string | number**   | Year of matches.                   |
+| month | **string | number**   | Month of matches.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -526,19 +588,22 @@ Standard multi-game format PGN containing all games for a month.
 ```
 
 ---
-### **.getPlayerClubs(username, options, callback)**
+## Get Player's Clubs
+```
+.getPlayerClubs(username, options, callback)
+```
+### Description: 
+*List of clubs the player is a member of, with joined date and last activity date.*
 
-List of clubs the player is a member of, with joined date and last activity date.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| username | **string**   | Username of desired profile.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -556,20 +621,22 @@ List of clubs the player is a member of, with joined date and last activity date
 }
 ```
 ---
+## Get Player's Matches
+```
+.getPlayerMatches(username, options, callback)
+```
+### Description: 
+*List of Team matches the player has attended, is partecipating or is currently registered.*
 
-### **.getPlayerMatches(username, options, callback)**
-
-List of Team matches the player has attended, is partecipating or is currently registered.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| username | **string**   | Username of desired profile.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -607,19 +674,22 @@ List of Team matches the player has attended, is partecipating or is currently r
 }
 ```
 ---
-### **.getPlayerTournaments(username, options, callback)**
+## Get Player's Tournaments
+```
+.getPlayerTournaments(username, options, callback)
+```
+### Description: 
+*List of tournaments the player is registered, is attending or has attended in the past.*
 
-List of tournaments the player is registered, is attending or has attended in the past.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| username | `string`   | Username of desired profile.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| username | **string**   | Username of desired profile.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -654,23 +724,26 @@ List of tournaments the player is registered, is attending or has attended in th
 }
 ```
 ---
-### **.getClub(urlID, options, callback)**
+## Get a Club 
+```
+.getClub(urlID, options, callback)
+```
+### Description: 
+*Get additional details about a club.*
 
-Get additional details about a club.
+*All club-based URLs use the club's "URL ID" to specify which club you want data for.*
 
-All club-based URLs use the club's "URL ID" to specify which club you want data for.
+*The url-ID is the same as found in the URL for the club's web page on www.chess.com. For example, the url-ID of the Chess.com Developer's Club is chess-com-developer-community.*
 
-The url-ID is the same as found in the URL for the club's web page on www.chess.com. For example, the url-ID of the Chess.com Developer's Club is chess-com-developer-community.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| urlID | `string`   | Club's unique urlID                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| urlID | **string**   | Club's unique urlID                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -693,19 +766,22 @@ The url-ID is the same as found in the URL for the club's web page on www.chess.
 }
 ```
 ---
-### **.getClubMembers(urlID, options, callback)**
+## Get a Club's Members
+```
+.getClubMembers(urlID, options, callback)
+```
+### Description: 
+*List of club members (usernames and joined date timestamp), grouped by club-activity frequency. The club-activity is one of this actions:*
 
-List of club members (usernames and joined date timestamp), grouped by club-activity frequency. The club-activity is one of this actions:
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| urlID | `string`   | Club's unique urlID                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| urlID | **string**   | Club's unique urlID                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -731,19 +807,22 @@ List of club members (usernames and joined date timestamp), grouped by club-acti
 }
 ```
 ---
-### **.getClubMatches(urlID, options, callback)**
+## Get a Club's Matches
+```
+.getClubMatches(urlID, options, callback)
+```
+### Description: 
+*List of daily and club matches, grouped by status (registered, in progress, finished).*
 
-List of daily and club matches, grouped by status (registered, in progress, finished).
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| urlID | `string`   | Club's unique urlID                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| urlID | **string**   | Club's unique urlID                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -773,23 +852,26 @@ List of daily and club matches, grouped by status (registered, in progress, fini
 }
 ```
 ---
-### **.getTournament(urlID, options, callback)**
+## Get a Tournament
+```
+.getTournament(urlID, options, callback)
+```
+### Description: 
+*Get details about a daily, live and arena tournament.*
 
-Get details about a daily, live and arena tournament.
+*All tournaments-based URLs use the tournament's "URL ID" to specify which tournament you want data for.*
 
-All tournaments-based URLs use the tournament's "URL ID" to specify which tournament you want data for.
+*The url-ID is the same as found in the URL for the tournament's web page on www.chess.com. For example, the url-ID of the Chess.com Developer's Club is -33rd-chesscom-quick-knockouts-1401-1600*
 
-The url-ID is the same as found in the URL for the tournament's web page on www.chess.com. For example, the url-ID of the Chess.com Developer's Club is -33rd-chesscom-quick-knockouts-1401-1600
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| urlID | `string`   | Tournaments's unique urlID                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| urlID | **string**   | Tournaments's unique urlID                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -831,20 +913,23 @@ The url-ID is the same as found in the URL for the tournament's web page on www.
 }
 ```
 ---
-### **.getTournamentRound(urlID, round, options, callback)**
+## Get a Tournament Round
+```
+.getTournamentRound(urlID, round, options, callback)
+```
+### Description: 
+*Get details about a tournament's round.*
 
-Get details about a tournament's round.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| urlID | `string`   | Tournaments's unique urlID                   |
-| round | `string | number`   | Round number                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| urlID | **string**   | Tournaments's unique urlID                   |
+| round | **string | number**   | Round number                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -861,21 +946,24 @@ Get details about a tournament's round.
 }
 ```
 ---
-### **.getTournamentRoundGroup(urlID, round, group, options, callback)**
+## Get a Tournament Round's Group
+```
+.getTournamentRoundGroup(urlID, round, group, options, callback)
+```
+### Description: 
+*Get details about a tournament's round group.*
 
-Get details about a tournament's round group.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| urlID | `string`   | Tournaments's unique urlID                   |
-| round | `string | number`   | Round number                   |
-| group | `string | number`   | Group number                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| urlID | **string**   | Tournaments's unique urlID                   |
+| round | **string | number**   | Round number                   |
+| group | **string | number**   | Group number                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -914,23 +1002,26 @@ Get details about a tournament's round group.
 }
 ```
 ---
-### **.getTeamMatch(id, options, callback)**
+## Get a Team Match
+```
+.getTeamMatch(id, options, callback)
+```
+### Description: 
+*Get details about a team match and players playing that match. After the match is finished there will be a link to each player's stats endpoint, in order to get up-to-date information about the player.*
 
-Get details about a team match and players playing that match. After the match is finished there will be a link to each player's stats endpoint, in order to get up-to-date information about the player.
+*All team matches-based URLs use the match "ID" to specify which match you want data for.*
 
-All team matches-based URLs use the match "ID" to specify which match you want data for.
+*The ID is the same as found in the URL for the team match web page on www.chess.com. For example, the ID WORLD LEAGUE Round 5: Romania vs USA Southwest is 12803.*
 
-The ID is the same as found in the URL for the team match web page on www.chess.com. For example, the ID WORLD LEAGUE Round 5: Romania vs USA Southwest is 12803.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| id | `string | number`   | Id of desired team match.                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| id | **string | number**   | Id of desired team match.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 // REGISTRATION PHASE: 
 
@@ -1048,20 +1139,23 @@ The ID is the same as found in the URL for the team match web page on www.chess.
 }
 ```
 ---
-### **.getTeamMatchBoard(id, board, options, callback)**
+## Get a Team Match Board
+```
+.getTeamMatchBoard(id, board, options, callback)
+```
+### Description: 
+*Get details about a team match board. Only in-progress or finished games will be included, so there may be one or two games in this list.*
 
-Get details about a team match board. Only in-progress or finished games will be included, so there may be one or two games in this list.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| id | `string | number`   | Id of desired team match.                   |
-| board | `string | number`   | Board identifier                  |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| id | **string | number**   | Id of desired team match.                   |
+| board | **string | number**   | Board identifier                  |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -1101,23 +1195,26 @@ Get details about a team match board. Only in-progress or finished games will be
 }
 ```
 ---
-### **.getTeamLiveMatch(id, options, callback)**
+## Get a Live Team Match
+```
+.getTeamLiveMatch(id, options, callback)
+```
+### Description: 
+*Get details about a team match and players playing that match. After the match is finished there will be a link to each player's stats endpoint, in order to get up-to-date information about the player.*
 
-Get details about a team match and players playing that match. After the match is finished there will be a link to each player's stats endpoint, in order to get up-to-date information about the player.
+*All live team matches-based URLs use the match "ID" to specify which match you want data for.*
 
-All live team matches-based URLs use the match "ID" to specify which match you want data for.
+*The ID is the same as found in the URL for the team match web page on www.chess.com. For example, the ID Friendly 5+2 is 5833.*
 
-The ID is the same as found in the URL for the team match web page on www.chess.com. For example, the ID Friendly 5+2 is 5833.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| id | `string | number`   | Id of desired live team match.                  |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| id | **string | number**   | Id of desired live team match.                  |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 // WHEN SCHEDULED:
 {
@@ -1311,20 +1408,23 @@ The ID is the same as found in the URL for the team match web page on www.chess.
 }
 ```
 ---
-### **.getTeamLiveMatchBoard(id, board, options, callback)**
+## Get a Live Team Match Board
+```
+.getTeamLiveMatchBoard(id, board, options, callback)
+```
+### Description: 
+*Get details about a team match board. Only in-progress or finished games will be included, so there may be one or two games in this list.*
 
-Get details about a team match board. Only in-progress or finished games will be included, so there may be one or two games in this list.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| id | `string | number`   | Id of desired live team match.                  |
-| board | `string | number`   | Board identifier                  |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| id | **string | number**   | Id of desired live team match.                  |
+| board | **string | number**   | Board identifier                  |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -1384,25 +1484,28 @@ Get details about a team match board. Only in-progress or finished games will be
 }
 ```
 ---
-### **.getCountry(iso, options, callback)**
+## Get a Country
+```
+.getCountry(iso, options, callback)
+```
+### Description: 
+*Get additional details about a country.*
 
-Get additional details about a country.
+*All country-based URLs use the country's 2-character ISO 3166 code (capitalized) to specify which country you want data for.*
 
-All country-based URLs use the country's 2-character ISO 3166 code (capitalized) to specify which country you want data for.
+*Find their [code's here](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).*
 
-Find their [code's here](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
+*Additional countries not listed on that official list have been posted by [Chess.com](https://www.chess.com/news/view/published-data-api) (scroll down to this endpoint).*
 
-Additional countries not listed on that official list have been posted by [Chess.com](https://www.chess.com/news/view/published-data-api) (scroll down to this endpoint).
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| iso | `string`   | Country's ISO identifier                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| iso | **string**   | Country's ISO identifier                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -1413,19 +1516,22 @@ Additional countries not listed on that official list have been posted by [Chess
 }
 ```
 ---
-### **.getCountryPlayers(iso, options, callback)**
+## Get a Country's Players
+```
+.getCountryPlayers(iso, options, callback)
+```
+### Description: 
+*List of usernames for players who identify themselves as being in this country.*
 
-List of usernames for players who identify themselves as being in this country.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| iso | `string`   | Country's ISO identifier                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| iso | **string**   | Country's ISO identifier                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -1436,19 +1542,22 @@ List of usernames for players who identify themselves as being in this country.
 }
 ```
 ---
-### **.getCountryClubs(iso, options, callback)**
+## Get a Country's Clubs
+```
+.getCountryClubs(iso, options, callback)
+```
+### Description: 
+*List of URLs for clubs identified as being in or associated with this country.*
 
-List of URLs for clubs identified as being in or associated with this country.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| iso | `string`   | Country's ISO identifier                   |
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| iso | **string**   | Country's ISO identifier                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -1459,18 +1568,21 @@ List of URLs for clubs identified as being in or associated with this country.
 }
 ```
 ---
-### **.getDailyPuzzle(options, callback)**
+## Get the Daily Puzzle
+```
+.getDailyPuzzle(options, callback)
+```
+### Description: 
+*Information about the daily puzzle found in [www.chess.com](www.chess.com).*
 
-Information about the daily puzzle found in [www.chess.com](www.chess.com).
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -1484,18 +1596,21 @@ Information about the daily puzzle found in [www.chess.com](www.chess.com).
 }
 ```
 ---
-### **.getDailyPuzzleRandom(options, callback)**
+## Get a Random Puzzle
+```
+.getDailyPuzzleRandom(options, callback)
+```
+### Description: 
+*Information about a randomly picked daily puzzle.*
 
-Information about a randomly picked daily puzzle.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -1509,18 +1624,21 @@ Information about a randomly picked daily puzzle.
 }
 ```
 ---
-### **.getStreamers(options, callback)**
+## Get List of Streamers
+```
+.getStreamers(options, callback)
+```
+### Description: 
+*Information about Chess.com streamers.*
 
-Information about Chess.com streamers.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -1536,18 +1654,21 @@ Information about Chess.com streamers.
 }
 ```
 ---
-### **.getLeaderboards(options, callback)**
+## Get Leaderboards
+```
+.getLeaderboards(options, callback)
+```
+### Description: 
+*It displays information about top 50 player for daily and live games, tactics and lessons.*
 
-It displays information about top 50 player for daily and live games, tactics and lessons.
-
-#### Parameters:
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
@@ -1687,17 +1808,24 @@ It displays information about top 50 player for daily and live games, tactics an
 }
 ```
 ---
-### **.getTitledPlayers(titleAbbrev, options, callback)**
+## Get Titled Players
+```
+.getTitledPlayers(titleAbbrev, options, callback)
+```
+### Description: 
+*Retrieves an array of usernames of players with a given title.*
 
-#### Parameters:
+*Valid title abbreviations are: GM, WGM, IM, WIM, FM, WFM, NM, WNM, CM, WCM.*
+
+### Parameters:
 
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
-| titleAbbrev | `string`   | GM, WGM, IM, WIM, FM, WFM, NM, WNM, CM, WCM.|
-| options  | `object`   | Added options to the end of the URL (optional) |
-| callback | `function` | Function to be called with result (optional)   |
+| titleAbbrev | **string**   | GM, WGM, IM, WIM, FM, WFM, NM, WNM, CM, WCM.|
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
 
-#### Returns
+### Returns
 ```
 {
     body: {
