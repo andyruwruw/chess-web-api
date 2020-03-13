@@ -15,7 +15,7 @@
 
 chess-web-api is a lightweight wrapper for the [Chess.com Published-Data API](https://www.chess.com/news/view/published-data-api). 
 
-It includes helper functions for [all the endpoints](#All-Functions), such as [player profile data](#Get-Player's-Profile), [current daily chess](#Get-Player's-Current-Daily-Chess-Games), [monthly archives](#Get-Player's-Completed-Monthly-Archives), [clubs](#Get-a-Club), [tournaments](#Get-a-Tournament) and [more](#All-Functions).
+It includes helper functions for [all the endpoints](#all-functions), such as [player profile data](#get-player's-profile), [current daily chess](#get-player's-current-daily-chess-games), [monthly archives](#get-player's-completed-monthly-archives), [clubs](#get-a-club), [tournaments](#get-a-tournament) and [more](#all-functions).
 
 Please read Chess.com's [notes on data currency, language and rate limits on parallel requests](https://www.chess.com/news/view/published-data-api). They're good to know before you implement this into your work.
 
@@ -25,7 +25,7 @@ I'll try to keep this library updated if they're API changes, feel free to submi
 # Additional Features
 
 ## Priority Queue
-**chess-web-api** can be inicialized with a [priority queue](#Usage-(With-Queue)) for requests to prevent parellel requests. Requests will be sent as soon as the previous returns. 
+**chess-web-api** can be inicialized with a [priority queue](#usage-(with-queue)) for requests to prevent parellel requests. Requests will be sent as soon as the previous returns. 
 
 Using the queue requires passing in a **callback function** for the result to be sent to.
 
@@ -39,13 +39,13 @@ This has been implemented into chess-web-api's [ifChanged function](#query-doc) 
 
 # Documentation
 
-- [Available Services](#Available-Services)
+- [Available Services](#available-services)
 - Getting Started
-    - [Installation](#Installation)
-    - [Usage Without Queue](#Usage-(Without-Queue))
-    - [Usage With Queue](#Usage-(With-Queue))
+    - [Installation](#installation)
+    - [Usage Without Queue](#usage-(without-queue))
+    - [Usage With Queue](#usage-(with-queue))
 - [Query for Changes](#query-doc)
-- [All Functions](#All-Functions)
+- [All Functions](#all-functions)
 
 
 
@@ -54,43 +54,43 @@ This has been implemented into chess-web-api's [ifChanged function](#query-doc) 
 The wrapper includes functions to retrieve the following: 
 
 ### Profile Data
-- [Profile](#Get-Player's-Profile)
-- [Stats](#Get-Player's-Statistics)
-- [Player online status](#Get-Player's-Online-Status)
+- [Profile](#get-player's-profile)
+- [Stats](#get-player's-statistics)
+- [Player online status](#get-player's-online-status)
 ### Player Games
-- [Current Daily Chess](#Get-Player's-Current-Daily-Chess-Games)
-- [Concise To-Move Daily Chess](#Get-Player's-Concise-To-Move-Daily-Chess-Games)
-- [Available Archives](#Get-Player's-Available-Monthly-Archives)
-- [Monthly Archives](#Get-Player's-Completed-Monthly-Archives)
-- [Multi-Game PGN Download](#Get-Player's-Month-Multi-Game-PGNs)
+- [Current Daily Chess](#get-player's-current-daily-chess-games)
+- [Concise To-Move Daily Chess](#get-player's-concise-to-move-daily-chess-games)
+- [Available Archives](#get-player's-available-monthly-archives)
+- [Monthly Archives](#get-player's-completed-monthly-archives)
+- [Multi-Game PGN Download](#get-player's-month-multi-game-pgns)
 ### Player Participation
-- [List of Clubs](#Get-Player's-Clubs)
-- [Team Matches](#Get-Player's-Matches)
-- [Tournaments](#Get-Player's-Tournaments)
+- [List of Clubs](#get-player's-clubs)
+- [Team Matches](#get-player's-matches)
+- [Tournaments](#get-player's-tournaments)
 ### Clubs
-- [Club Profile](#Get-a-Club)
-- [List of members, by activity level](#Get-a-Club's-Members)
-- [Team Matches](#Get-a-Club's-Matches)
+- [Club Profile](#get-a-club)
+- [List of members, by activity level](#get-a-club's-members)
+- [Team Matches](#get-a-club's-matches)
 ### Tournaments
-- [Tournament](#Get-a-Tournament)
-- [Tournament Round](#Get-a-Tournament-Round)
-- [Tournament Round's Group](#Get-a-Tournament-Round's-Group)
+- [Tournament](#get-a-tournament)
+- [Tournament Round](#get-a-tournament-round)
+- [Tournament Round's Group](#get-a-tournament-round's-group)
 ### Team Matches
-- [Daily Team Match](#Get-a-Team-Match)
-- [Daily Team Match Board](#Get-a-Team-Match-Board)
-- [Live Team Match](#Get-a-Live-Team-Match)
-- [Live Team Match Board](#Get-a-Live-Team-Match-Board)
+- [Daily Team Match](#get-a-team-match)
+- [Daily Team Match Board](#get-a-team-match-board)
+- [Live Team Match](#get-a-live-team-match)
+- [Live Team Match Board](#get-a-live-team-match-board)
 ### Countries
-- [Country Profile](#Get-a-Country)
-- [List of Players](#Get-a-Country's-Players)
-- [List of Clubs](#Get-a-Country's-Clubs)
+- [Country Profile](#get-a-country)
+- [List of Players](#get-a-country's-players)
+- [List of Clubs](#get-a-country's-clubs)
 ### Daily Puzzle
-- [Daily Puzzle](#Get-the-Daily-Puzzle)
-- [Random Daily Puzzle](#Get-a-Random-Puzzle)
+- [Daily Puzzle](#get-the-daily-puzzle)
+- [Random Daily Puzzle](#get-a-random-puzzle)
 ### General
-- [Streamers](#Get-List-of-Streamers)
-- [Leaderboards](#Get-Leaderboards)
-- [Titled Players](#Get-Titled-Players)
+- [Streamers](#get-list-of-streamers)
+- [Leaderboards](#get-leaderboards)
+- [Titled Players](#get-titled-players)
 
 
 
@@ -106,7 +106,7 @@ var ChessWebAPI = require('chess-web-api');
 
 var chessAPI = new ChessWebAPI();
 ```
-If you wish to use the built in [priority queue](#Usage-(With-Queue)) to avoid parallel requests, add the following paramter to the constructor:
+If you wish to use the built in [priority queue](#usage-(with-queue)) to avoid parallel requests, add the following paramter to the constructor:
 ```
 var chessAPI = new ChessWebAPI({
     queue: true
