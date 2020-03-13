@@ -7,7 +7,6 @@
 <p align="center" style="margin: 0px auto; margin-top: 15px; max-width: 600px">
     <a href="https://melophile.org"><img src="https://img.shields.io/npm/v/chess-web-api"></a>
     <a href="#"><img src="https://img.shields.io/npm/dt/chess-web-api"/></a>
-    <a href="https://melophile.org"><img src="https://img.shields.io/github/repo-size/andyruwruw/chess-web-api"></a>
     <a href="https://melophile.org"><img src="https://img.shields.io/github/issues-raw/andyruwruw/chess-web-api"></a>
 </p>
 
