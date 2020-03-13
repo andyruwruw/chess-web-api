@@ -43,7 +43,7 @@ This has been implemented into chess-web-api's [ifChanged function](#query-doc) 
 - Getting Started
     - [Installation](#installation)
     - [Usage Without Queue](#usage-without-queue)
-    - [Usage With Queue](#usage-with-queue))
+    - [Usage With Queue](#usage-with-queue)
 - [Query for Changes](#query-doc)
 - [All Functions](#all-functions)
 
