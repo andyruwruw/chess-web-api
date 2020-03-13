@@ -206,6 +206,7 @@ chessAPI.getTitledPlayers('GM')
 
 
 <h1 id="query-doc">Query for Changes</h1>
+
 ```
 .ifChanged(etag, method, parameters, options, callback)
 ```
