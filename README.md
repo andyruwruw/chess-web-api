@@ -1,5 +1,5 @@
 <div align="center">
-    <image align="center"src="./documentation/logo.svg"/><br/>
+    <image width="400" align="center"src="./documentation/logo.png"/><br/>
 </div>
 
 <p align="center">Lightweight wrapper for the Chess.com Published-Data API</p>
