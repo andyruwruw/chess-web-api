@@ -66,7 +66,7 @@ module.exports = {
                 let method = request.method;
                 let callback = request.callback;
                 let response = await method(...request.parameters, request.options);
-                callback(response, ...request.callbackParamerters);
+                callback(response, ...request.callbackParameters);
             }
             this._running = false;
         } catch(error) {
