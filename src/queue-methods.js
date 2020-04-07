@@ -64,9 +64,11 @@ module.exports = {
                 if (!this._running) this._running = true;
                 let request = this.dequeue();
                 let method = request.method;
-                let callback = request.callback;
-                let response = await method(...request.parameters, request.options);
-                callback(response, ...request.callbackParameters);
+				let callback = request.callback;
+				let error = null;
+				let response = await method(...request.parameters, request.options)
+					.catch((e) => error = e);
+                callback(response, error, ...request.callbackParameters);
             }
             this._running = false;
         } catch(error) {
