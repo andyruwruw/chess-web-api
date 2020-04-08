@@ -1,5 +1,5 @@
 <div align="center">
-    <image width="400" align="center"src="./documentation/logo.png"/><br/>
+    <image width="400" align="center"src="https://raw.githubusercontent.com/andyruwruw/chess-web-api/master/documentation/logo.png"/><br/>
 </div>
 
 <p align="center">Lightweight wrapper for the Chess.com Published-Data API</p>
