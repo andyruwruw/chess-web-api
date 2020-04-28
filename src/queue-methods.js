@@ -56,7 +56,11 @@ module.exports = {
         if (this._requests.length == 0)
             return null;
         return (this._requests.shift());
-    },
+	},
+	
+	clearQueue: function() {
+		this._requests = [];
+	},
 
     startRequests: async function() {
         try {
