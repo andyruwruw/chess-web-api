@@ -158,6 +158,20 @@ To add something to the queue, use the method **dispatch**.
 
 ### Returns: **object**
 
+### Callback: 
+
+The provided callback method will be provided two parameters: **(response, error)**.
+
+Response is the full request result.
+
+Additional parameters can be passed to the callback in **callbackParameters**.
+
+The dispatch function determines the difference between **parameters** to be passed into the **chessAPI method** vs the **callback function** by order. 
+
+The **first array** passed into dispatch will always be passed into the **chessAPI method**. 
+
+The **second array** will always be sent to the **callback function**, with the **response to the request as the first parameter**. See example above.
+
 ### Example: 
 
 ```
@@ -167,7 +181,7 @@ var chessAPI = new ChessWebAPI({
     queue: true,
 });
 
-let printResults = function(response, sampleParameter1, sampleParameter2) {
+let printResults = function(response, error, sampleParameter1, sampleParameter2) {
     console.log(response.body);
     console.log(sampleParameter1);
     console.log(sampleParameter2);
@@ -178,12 +192,6 @@ chessAPI.dispatch(chessAPI.getTitledPlayers, printResults, ["GM"]);
 chessAPI.dispatch(chessAPI.getPlayerCurrentDailyChess, printResults, ["andyruwruw"], ["callbackParameter"]);
 chessAPI.dispatch(chessAPI.getPlayerCompleteMonthlyArchives, printResults, ["andyruwruw", 2019, 10], {}, ["callback parameter"]);
 ```
-
-The dispatch function determines the difference between **parameters** to be passed into the **chessAPI method** vs the **callback function** by order. 
-
-The **first array** passed into dispatch will always be passed into the **chessAPI method**. 
-
-The **second array** will always be sent to the **callback function**, with the **response to the request as the first parameter**. See example above.
 
 If you inicialize your **ChessWebAPI** with the queue enabled, you can still call any of the regular functions without using the queue.
 
@@ -202,7 +210,34 @@ chessAPI.getTitledPlayers('GM')
     });
 ```
 
+---
+## Clear the Queue
+```
+.clearQueue()
+```
 
+### Description: 
+*Should you wish the clear the queue you can run the following method.*
+
+### Example: 
+
+```
+var ChessWebAPI = require('chess-web-api');
+
+var chessAPI = new ChessWebAPI({
+    queue: true,
+});
+
+let printResults = function(response, error) {
+    console.log(response.body);
+}
+
+chessAPI.dispatch(chessAPI.getPlayer, printResults, ["andyruwruw"], {}, 1, ["callbackParameter", "anotherCallbackParameter"]);
+
+chessAPI.clearQueue();
+```
+
+---
 
 <h1 id="query-doc">Query for Changes</h1>
 
