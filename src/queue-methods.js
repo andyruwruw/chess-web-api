@@ -27,7 +27,7 @@ module.exports = {
             parameters: actualParameters ? actualParameters : [], 
             options: actualOptions ? actualOptions : {}, 
             priority: actualPriority ? actualPriority : 1,
-            callbackParamerters: actualCallbackParameters ? actualCallbackParameters : [],
+            callbackParameters: actualCallbackParameters ? actualCallbackParameters : [],
         };
         try {
             this.enqueue(request);
