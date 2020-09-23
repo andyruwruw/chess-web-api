@@ -1,0 +1,60 @@
+/* eslint-disable no-undef */
+const { sortParameters } = require('../src/utils/sort-parameters');
+
+it('Function: sortParameters (Filled)', async () => {
+  expect.assertions(6);
+  const a = { type: 'Object' };
+  const b = () => ('Function 1');
+  const c = 'string';
+  const d = { type: 'Second Object' };
+
+  const [_a, _b, _c, _d] = sortParameters(
+    ['object', 'function', 'string', 'object'],
+    [a, b, c, d],
+  );
+
+  expect(typeof (_a)).toBe('object');
+  expect(typeof (_b)).toBe('function');
+  expect(_b()).toBe('Function 1');
+  expect(typeof (_c)).toBe('string');
+  expect(typeof (_d)).toBe('object');
+  expect(d.type).toBe('Second Object');
+});
+
+it('Function: sortParameters (Missing)', async () => {
+  expect.assertions(5);
+  const a = { type: 'Object' };
+  const b = undefined;
+  const c = 'string';
+  const d = { type: 'Second Object' };
+
+  const [_a, _b, _c, _d] = sortParameters(
+    ['object', 'function', 'string', 'object'],
+    [a, b, c, d],
+  );
+
+  expect(typeof (_a)).toBe('object');
+  expect(typeof (_b)).toBe('function');
+  expect(_b()).toBe(null);
+  expect(typeof (_c)).toBe('string');
+  expect(typeof (_d)).toBe('object');
+});
+
+it('Function: sortParameters (Last)', async () => {
+  expect.assertions(5);
+  const a = undefined;
+  const b = undefined;
+  const c = undefined;
+  const d = [];
+
+  const [_a, _b, _c, _d] = sortParameters(
+    ['object', 'function', 'string', 'array'],
+    [a, b, c, d],
+  );
+
+  expect(typeof (_a)).toBe('object');
+  expect(typeof (_b)).toBe('function');
+  expect(_b()).toBe(null);
+  expect(typeof (_c)).toBe('string');
+  expect(_d).toBeInstanceOf(Array);
+});

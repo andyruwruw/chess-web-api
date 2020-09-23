@@ -142,7 +142,7 @@ chessAPI.getTitledPlayers('GM')
 
 To add something to the queue, use the method **dispatch**.
 ```
-.dispatch(method, callback, parameters, options, priority, callbackParameters)
+.dispatch(method, callback, parameters, options, callbackParameters, priority)
 ```
 ### Parameters:
 
@@ -152,8 +152,8 @@ To add something to the queue, use the method **dispatch**.
 | callback   | **function** | Function to be called with result                 |
 | parameters | **array**    | Array of parameters to be passed into the method. |
 | options    | **object**   | Added options to the end of the URL (optional)    |
-| priority   | **number**   | Priority in queue (1 is heighest priority) (optional)|
 | callbackParameters   | **array**   | Array of parameters to be passed on to the callback method along with the response. (optional)|
+| priority   | **number**   | Priority in queue (1 is highest priority) (optional)|
 
 ### Returns: **object**
 

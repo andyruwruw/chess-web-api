@@ -1,5 +1,3 @@
-'use strict';
-
 function WebapiError(message, statusCode) {
   this.name = 'WebapiError';
   this.message = message || '';
