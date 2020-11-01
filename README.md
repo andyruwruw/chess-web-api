@@ -388,7 +388,7 @@ Valid title abbreviations are: GM, WGM, IM, WIM, FM, WFM, NM, WNM, CM, WCM.
 
 The Chess.com public data API does not allow you to make two requests simultaneously. If you have more than two active requests at a time, you'll recieve a **429 Too Many Requests** error. 
 
-chess-web-api can be inicialized with a priority queue. All requests made through the queue will be made as soon as the previous returns. 
+chess-web-api can be initialized with a priority queue. All requests made through the queue will be made as soon as the previous returns. 
 
 To use chess-web-api with a queue, instantiate the wrapper with the following option set to true:
 ```
@@ -449,7 +449,7 @@ chessAPI.dispatch(chessAPI.getPlayerCurrentDailyChess, printResults, ["andyruwru
 chessAPI.dispatch(chessAPI.getPlayerCompleteMonthlyArchives, printResults, ["andyruwruw", 2019, 10], {}, ["callback parameter"]);
 ```
 
-If you inicialize your **ChessWebAPI** with the queue enabled, you can still call any of the regular functions without using the queue.
+If you initialize your **ChessWebAPI** with the queue enabled, you can still call any of the regular functions without using the queue.
 
 ```
 var ChessWebAPI = require('chess-web-api');
