@@ -36,7 +36,7 @@ function dispatch(method, callback, parameters, options, callbackParameters, pri
     parameters: _parameters,
     options: _options,
     priority: _priority || 1,
-    callbackParameters: _callbackParameters,
+    callbackParameters: _callbackParameters || [],
   };
 
   this.enqueue(request);
