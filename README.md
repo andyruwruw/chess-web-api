@@ -467,7 +467,7 @@ chessAPI.getTitledPlayers('GM')
 ```
 <h1 id="clear-queue">clearQueue()</h1>
 
-Should you wish the clear the queue you can run the following method.
+Should you wish to clear the queue you can run the following method.
 
 ### Example: 
 

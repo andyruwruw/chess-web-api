@@ -2,7 +2,7 @@
 
 ## Did you find a bug?
 
-- [Open a new issue](https://github.com/andyruwruw/chess-web-api/issues/new/choose) if it's not already reported under [issues](https://github.com/andyruwruw/chess-web-api/issues]).
+- [Open a new issue](https://github.com/andyruwruw/chess-web-api/issues/new/choose) if it's not already reported under [issues](https://github.com/andyruwruw/chess-web-api/issues).
 
 - Be sure to add a clear title and description, giving as much information as possible to reproduce your issue.
 
