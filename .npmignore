@@ -1,7 +1,9 @@
-documentation
-
-tests
+node_modules
 
 .eslintrc.json
 
 .github
+
+documentation
+
+tests
