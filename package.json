@@ -1,6 +1,6 @@
 {
   "name": "chess-web-api",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "chess.com api wrapper",
   "main": "src/index.js",
   "scripts": {
