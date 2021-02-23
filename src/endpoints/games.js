@@ -66,7 +66,7 @@ function getGameByID(id, options, callback, headers) {
           _modifyResultBody(result.body);
           resolve(result);
         } catch (e) {
-          reject(error);
+          reject(e);
         }
       }
     });
@@ -137,7 +137,6 @@ function _PawnPromotion(index) {
     throw new Error(`Pawn promotion row index out of bounds: ${pieceIndex}`);
   }
   this.piece = PROMOTION_TABLE_ROWS[pieceIndex];
-  this.pieceIndex = index;
   this.isCaptureLeft = index % PROMOTION_TABLE_COLUMNS_LENGTH 
       === PROMOTION_CAPTURE_LEFT;
   this.isCaptureRight = index % PROMOTION_TABLE_COLUMNS_LENGTH
