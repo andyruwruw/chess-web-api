@@ -3,6 +3,7 @@
 
 /**
  * Returns a default object.
+ *
  * @param {string} type Type of object
  * @returns {*} Default object of that type
  */
@@ -22,6 +23,7 @@ function defaultObject(type) {
 
 /**
  * Defaults parameters if not present.
+ *
  * @param {Array<string>} types Array of each parameter's type
  * @param {Array<*>} parameters Arrat of parameters
  * @returns {Array<*>} Array of parameters with undefined values filled.

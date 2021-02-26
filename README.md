@@ -25,56 +25,58 @@ All endpoint descriptions were copied from [here](https://www.chess.com/news/vie
 
 - [Installation](#installation)
 - Methods
-    - Profile Data
-        - [Player Profile](#get-players-profile)
-        - [Player Stats](#get-players-statistics)
-        - [Player Online Status](#get-players-online-status)
-    - Player Games
-        - [Current Daily Chess](#get-players-current-daily-chess-games)
-        - [Concise To-Move Daily Chess](#get-players-concise-to-move-daily-chess-games)
-        - [Available Archives](#get-players-available-monthly-archives)
-        - [Monthly Archives](#get-players-completed-monthly-archives)
-        - [Multi-Game PGN Download](#get-players-month-multi-game-pgns)
-        - [Game Data by ID](#get-game-by-id)
-    - Player Participation
-        - [List of Clubs](#get-players-clubs)
-        - [Team Matches](#get-players-matches)
-        - [Tournaments](#get-players-tournaments)
+    - Player
+        - Profile Data
+            - [Player Profile](#getplayerusername-options-callback)
+            - [Player Stats](#getplayerstatsusername-options-callback)
+            - [Player Online Status](#getplayeronlineusername-options-callback)
+        - Player Games
+            - [Current Daily Chess](#getplayercurrentdailychessusername-options-callback)
+            - [Concise To-Move Daily Chess](#getplayertomovedailychessusername-options-callback)
+            - [Available Archives](#getplayermonthlyarchivesusername-options-callback)
+            - [Monthly Archives](#getplayercompletemonthlyarchivesusername-year-month-options-callback)
+            - [Multi-Game PGN Download](#getplayermultigamepgnusername-year-month-options-callback)
+        - Player Participation
+            - [List of Clubs](#getplayerclubsusername-options-callback)
+            - [Team Matches](#getplayermatchesusername-options-callback)
+            - [Tournaments](#getplayertournamentsusername-options-callback)
+    - Games
+        - [Game Data by ID](#getgamebyidid-options-callback)
     - Clubs
-        - [Club Profile](#get-a-club)
-        - [List of members, by activity level](#get-a-clubs-members)
-        - [Team Matches](#get-a-clubs-matches)
+        - [Club Profile](#getcluburlid-options-callback)
+        - [List of members, by activity level](#getclubmembersurlid-options-callback)
+        - [Team Matches](#getclubmatchesurlid-options-callback)
     - Tournaments
-        - [Tournament](#get-a-tournament)
-        - [Tournament Round](#get-a-tournament-round)
-        - [Tournament Round's Group](#get-a-tournament-rounds-group)
+        - [Tournament](#gettournamenturlid-options-callback)
+        - [Tournament Round](#gettournamentroundurlid-round-options-callback)
+        - [Tournament Round's Group](#gettournamentroundgroupurlid-round-group-options-callback)
     - Team Matches
-        - [Daily Team Match](#get-a-team-match)
-        - [Daily Team Match Board](#get-a-team-match-board)
-        - [Live Team Match](#get-a-live-team-match)
-        - [Live Team Match Board](#get-a-live-team-match-board)
+        - [Daily Team Match](#getteammatchid-options-callback)
+        - [Daily Team Match Board](#getteammatchboardid-board-options-callback)
+        - [Live Team Match](#getteamlivematchid-options-callback)
+        - [Live Team Match Board](#getteamlivematchboardid-board-options-callback)
     - Countries
-        - [Country Profile](#get-a-country)
-        - [List of Players](#get-a-countrys-players)
-        - [List of Clubs](#get-a-countrys-clubs)
+        - [Country Profile](#getcountryiso-options-callback)
+        - [List of Players](#getcountryplayersiso-options-callback)
+        - [List of Clubs](#getcountryclubsiso-options-callback)
     - Daily Puzzle
-        - [Daily Puzzle](#get-the-daily-puzzle)
-        - [Random Daily Puzzle](#get-a-random-puzzle)
+        - [Daily Puzzle](#getdailypuzzleoptions-callback)
+        - [Random Daily Puzzle](#getdailypuzzlerandomoptions-callback)
     - General
-        - [Streamers](#get-list-of-streamers)
-        - [Leaderboards](#get-leaderboards)
-        - [Titled Players](#get-titled-players)
+        - [Streamers](#getstreamersoptions-callback)
+        - [Leaderboards](#getleaderboardsoptions-callback)
+        - [Titled Players](#gettitledplayerstitleabbrev-options-callback)
 - [Priority Queue](#priority-queue)
-    - [dispatch](#dispatch)
-    - [clearQueue](#clear-queue)
-- [Query for Changes](#query-doc)
-    - [ifChanged](#if-changed)
+    - [dispatch](#----dispatchmethod-callback-parameters-options-callbackparameters-priority)
+    - [clearQueue](#clearqueue)
+- [Query for Changes](#query-for-changes)
+    - [ifChanged](#------------ifchangedetag-method-parameters-options-callback----)
 
 # Installation
 
 Install via node:
 
-    $ npm i -S chess-web-api
+    $ npm i chess-web-api
 
 Import the module and instantiate the wrapper.
 ```
@@ -170,15 +172,6 @@ Standard multi-game format PGN containing all games for a month.
 | options  | **object**   | Added options to the end of the URL (optional) |
 | callback | **function** | Function to be called with result (optional)   |
 
-# [getGameByID(id, options, callback)](https://www.chess.com/callback/live/game/{id})
-Game data lookup by ID using an undocumented endpoint.  Includes PGN, metadata, and player info.
-### Parameters
-| Name     | Type         | Description                                    |
-|----------|--------------|------------------------------------------------|
-| id       | **string**   | The game ID.                                   |
-| options  | **object**   | Added options to the end of the URL (optional) |
-| callback | **function** | Function to be called with result (optional)   |
-
 # [getPlayerClubs(username, options, callback)](https://www.chess.com/news/view/published-data-api#pubapi-endpoint-player-clubs)
 List of clubs the player is a member of, with joined date and last activity date.
 ### Parameters
@@ -203,6 +196,17 @@ List of tournaments the player is registered, is attending or has attended in th
 | Name     | Type       | Description                                    |
 |----------|------------|------------------------------------------------|
 | username | **string**   | Username of desired profile.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
+
+# [getGameByID(id, options, callback)](https://github.com/andyruwruw/chess-web-api/blob/master/documentation/GAME.md)
+Game data lookup by ID.  Includes PGN, metadata, and player info.
+
+[Click here](https://github.com/andyruwruw/chess-web-api/blob/master/documentation/GAME.md) for more details.
+### Parameters
+| Name     | Type         | Description                                    |
+|----------|--------------|------------------------------------------------|
+| id       | **string**   | The game ID.                                   |
 | options  | **object**   | Added options to the end of the URL (optional) |
 | callback | **function** | Function to be called with result (optional)   |
 

@@ -10,6 +10,7 @@ function queueSetup() {
 
 /**
  * Prepares a request to be added to the queue
+ *
  * @param {function} method chess-web-api function for request
  * @param {function} callback Function to be called with result
  * @param {array} parameters Array of parameter to be passed into chess-web-api function

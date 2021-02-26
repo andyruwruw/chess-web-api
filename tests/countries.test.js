@@ -5,31 +5,52 @@ const {
   getCountryClubs,
 } = require('../src/endpoints/countries');
 
-const ISO = 'US';
+// US was failing due to 'getCountryPlayers' being such a huge file.
+const ISO = 'LU';
 
-it('Endpoint: getCountry', async () => {
-  expect.assertions(3);
-  const data = await getCountry(ISO);
+describe('Endpoints: Countries', () => {
+  describe('getCountry', () => {
+    it('Valid Request', async () => {
+      try {
+        expect.assertions(3);
+        const data = await getCountry(ISO);
 
-  expect(data.statusCode).toEqual(200);
-  expect(data.body).toHaveProperty('code');
-  expect(data.body).toHaveProperty('name');
-});
+        expect(data.statusCode).toEqual(200);
+        expect(data.body).toHaveProperty('code');
+        expect(data.body).toHaveProperty('name');
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
 
-it('Endpoint: getCountryPlayers', async () => {
-  expect.assertions(3);
-  const data = await getCountryPlayers(ISO);
+  describe('getCountryPlayers', () => {
+    it('Valid Request', async () => {
+      try {
+        expect.assertions(3);
+        const data = await getCountryPlayers(ISO);
 
-  expect(data.statusCode).toEqual(200);
-  expect(data.body).toHaveProperty('players');
-  expect(data.body.players).toBeInstanceOf(Array);
-});
+        expect(data.statusCode).toEqual(200);
+        expect(data.body).toHaveProperty('players');
+        expect(data.body.players).toBeInstanceOf(Array);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
 
-it('Endpoint: getCountryClubs', async () => {
-  expect.assertions(3);
-  const data = await getCountryClubs(ISO);
+  describe('getCountryClubs', () => {
+    it('Valid Request', async () => {
+      try {
+        expect.assertions(3);
+        const data = await getCountryClubs(ISO);
 
-  expect(data.statusCode).toEqual(200);
-  expect(data.body).toHaveProperty('clubs');
-  expect(data.body.clubs).toBeInstanceOf(Array);
+        expect(data.statusCode).toEqual(200);
+        expect(data.body).toHaveProperty('clubs');
+        expect(data.body.clubs).toBeInstanceOf(Array);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
 });

@@ -22,32 +22,52 @@ QueueObject.prototype = {
 
 let queue = null;
 
-beforeEach(() => {
-  queue = new QueueObject();
-});
+describe('Functionality: Priority Queue', () => {
+  beforeEach(() => {
+    queue = new QueueObject();
+  });
 
-afterEach(() => {
-  queue = null;
-});
+  afterEach(() => {
+    queue = null;
+  });
 
-it('Function: Queue (setup)', async () => {
-  expect.assertions(3);
+  describe('Queue Setup', () => {
+    it('Valid Instantiation', () => {
+      try {
+        expect.assertions(3);
 
-  expect(queue).toHaveProperty('_running');
-  expect(queue).toHaveProperty('_requests');
-  expect(queue._requests).toBeInstanceOf(Array);
-});
+        expect(queue).toHaveProperty('_running');
+        expect(queue).toHaveProperty('_requests');
+        expect(queue._requests).toBeInstanceOf(Array);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
 
-it('Function: Queue (dispatch)', async () => {
-  expect.assertions(1);
-  const method = jest.fn();
-  await queue.dispatch(method, () => (null), []);
-  expect(method).toHaveBeenCalled();
-});
+  describe('Dispatch', () => {
+    it('Valid Call', async () => {
+      try {
+        expect.assertions(1);
+        const method = jest.fn();
+        await queue.dispatch(method, () => (null), []);
+        expect(method).toHaveBeenCalled();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
 
-it('Function: Queue (dispatch with parameters)', async () => {
-  expect.assertions(1);
-  const method = jest.fn();
-  await queue.dispatch(method, () => (null), ['1', '2']);
-  expect(method).toHaveBeenLastCalledWith('1', '2', undefined);
+  describe('Dispatch with Parameters', () => {
+    it('Valid Call', async () => {
+      try {
+        expect.assertions(1);
+        const method = jest.fn();
+        await queue.dispatch(method, () => (null), ['1', '2']);
+        expect(method).toHaveBeenLastCalledWith('1', '2', undefined);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
 });

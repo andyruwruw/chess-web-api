@@ -1,10 +1,14 @@
 {
   "name": "chess-web-api",
-  "version": "1.0.17",
+  "version": "1.1.0",
   "description": "chess.com api wrapper",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest"
+    "lint": "eslint . --ignore-pattern node_modules/",
+    "lint:fix": "eslint . --ignore-pattern node_modules/ --fix",
+    "test": "jest --runInBand --detectOpenHandles",
+    "test:ci": "jest --verbose --runInBand --detectOpenHandles",
+    "test:watch": "jest --watch --runInBand --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -30,6 +34,7 @@
     "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
-    "jest": "^26.4.2"
+    "jest": "^26.4.2",
+    "jest-each": "^26.6.2"
   }
 }

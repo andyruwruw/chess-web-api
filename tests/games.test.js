@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
-const { getGameByID } = require('../src/endpoints/games');
 const { Chess } = require('chess.js');
 const each = require('jest-each').default;
+
+const { getGameByID } = require('../src/endpoints/games');
 
 // simple game
 // API: https://www.chess.com/callback/live/game/6592985978
@@ -160,18 +161,26 @@ const ALL_TEST_GAMES = [
   TEST_GAME_14,
 ];
 
-each(ALL_TEST_GAMES).it('Endpoint: getGameByID', async (id, startFen, endFen) => {
-  expect.assertions(6);
-  const data = await getGameByID(id);
+describe('Endpoints: Games', () => {
+  describe('getGameByID', () => {
+    each(ALL_TEST_GAMES).it('Valid Request', async (id, startFen, endFen) => {
+      try {
+        expect.assertions(6);
+        const data = await getGameByID(id);
 
-  expect(data.statusCode).toEqual(200);
-  expect(data.body).toHaveProperty('game');
-  expect(data.body).toHaveProperty('game.moveList');
-  expect(data.body).toHaveProperty('game.pgnHeaders');
-  expect(data.body).toHaveProperty('game.pgn');
+        expect(data.statusCode).toEqual(200);
+        expect(data.body).toHaveProperty('game');
+        expect(data.body).toHaveProperty('game.moveList');
+        expect(data.body).toHaveProperty('game.pgnHeaders');
+        expect(data.body).toHaveProperty('game.pgn');
 
-  // verify that PGN results in the expected FEN per the game analysis page
-  const chess = new Chess(startFen);
-  chess.load_pgn(data.body.game.pgn);
-  expect(chess.fen()).toEqual(endFen);
+        // verify that PGN results in the expected FEN per the game analysis page
+        const chess = new Chess(startFen);
+        chess.load_pgn(data.body.game.pgn);
+        expect(chess.fen()).toEqual(endFen);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
 });

@@ -45,7 +45,7 @@ const {
   getLeaderboards,
 } = require('./endpoints/leaderboards');
 const {
-  getGameByID
+  getGameByID,
 } = require('./endpoints/games');
 
 function ChessWebAPI(options) {
@@ -65,42 +65,44 @@ ChessWebAPI.prototype = {
   },
 
   async ifChanged(etag, method, parameters, options, callback) {
-    try {
-      if (!etag || typeof etag !== 'string') {
-        throw Error('etag required for ifChanged');
-      }
-      if (!method || typeof method !== 'function') {
-        throw Error('dispatch requires request function');
-      }
+    if (!etag || typeof etag !== 'string') {
+      throw Error('etag required for ifChanged');
+    }
+    if (!method || typeof method !== 'function') {
+      throw Error('dispatch requires request function');
+    }
 
-      let actualParameters = [];
-      let actualCallback = null;
-      let actualOptions = {};
+    let actualParameters = [];
+    let actualCallback = null;
+    let actualOptions = {};
 
-      const items = [parameters, options, callback];
+    const items = [parameters, options, callback];
 
-      for (let i = 0; i < items.length; i += 1) {
-        if (items[i]) {
-          if (items[i] instanceof Array) {
-            actualParameters = items[i];
-          } else if (typeof items[i] === 'object') {
-            actualOptions = items[i];
-          } else if (typeof items[i] === 'function') {
-            actualCallback = items[i];
-          }
+    for (let i = 0; i < items.length; i += 1) {
+      if (items[i]) {
+        if (items[i] instanceof Array) {
+          actualParameters = items[i];
+        } else if (typeof items[i] === 'object') {
+          actualOptions = items[i];
+        } else if (typeof items[i] === 'function') {
+          actualCallback = items[i];
         }
       }
+    }
+
+    try {
+      const data = await method(
+        ...actualParameters,
+        actualOptions,
+        actualCallback,
+        {
+          'If-None-Match': etag,
+        },
+      );
 
       const response = {
         changed: true,
-        response: await method(
-          ...actualParameters,
-          actualOptions,
-          actualCallback,
-          {
-            'If-None-Match': etag,
-          },
-        ),
+        response: data,
       };
 
       return response;

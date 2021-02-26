@@ -9,17 +9,27 @@ beforeAll(() => {
   chessAPI = new ChessWebAPI();
 });
 
-it('Function: ifChanged', async () => {
-  expect.assertions(2);
-  const data = await chessAPI.getClub(URL_ID);
-  const eTag = data.headers.etag;
+describe('Functionality: If Changed', () => {
+  describe('ifChanged', () => {
+    it('Unchanged', async () => {
+      try {
+        expect.assertions(2);
+        const data = await chessAPI.getClub(URL_ID);
+        const eTag = data.headers.etag;
 
-  const result = await chessAPI.ifChanged(
-    eTag,
-    chessAPI.getClub,
-    [URL_ID],
-  );
+        const result = await chessAPI.ifChanged(
+          eTag,
+          chessAPI.getClub,
+          [URL_ID],
+        );
 
-  expect(result).toHaveProperty('changed');
-  expect(result).toHaveProperty('response');
+        expect(result).toHaveProperty('changed');
+        expect(result).toHaveProperty('response');
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    // If theres some value that is constantly changing?
+  });
 });
