@@ -44,6 +44,9 @@ const {
 const {
   getLeaderboards,
 } = require('./endpoints/leaderboards');
+const {
+  getGameByID
+} = require('./endpoints/games');
 
 function ChessWebAPI(options) {
   if (options && 'queue' in options && options.queue) {
@@ -142,6 +145,8 @@ ChessWebAPI.prototype = {
   getStreamers,
 
   getLeaderboards,
+
+  getGameByID,
 };
 
 module.exports = ChessWebAPI;

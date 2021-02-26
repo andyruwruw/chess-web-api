@@ -35,6 +35,7 @@ All endpoint descriptions were copied from [here](https://www.chess.com/news/vie
         - [Available Archives](#get-players-available-monthly-archives)
         - [Monthly Archives](#get-players-completed-monthly-archives)
         - [Multi-Game PGN Download](#get-players-month-multi-game-pgns)
+        - [Game Data by ID](#get-game-by-id)
     - Player Participation
         - [List of Clubs](#get-players-clubs)
         - [Team Matches](#get-players-matches)
@@ -166,6 +167,15 @@ Standard multi-game format PGN containing all games for a month.
 | username | **string**   | Username of desired profile.                   |
 | year | **string / number**   | Year of matches.                   |
 | month | **string / number**   | Month of matches.                   |
+| options  | **object**   | Added options to the end of the URL (optional) |
+| callback | **function** | Function to be called with result (optional)   |
+
+# [getGameByID(id, options, callback)](https://www.chess.com/callback/live/game/{id})
+Game data lookup by ID using an undocumented endpoint.  Includes PGN, metadata, and player info.
+### Parameters
+| Name     | Type         | Description                                    |
+|----------|--------------|------------------------------------------------|
+| id       | **string**   | The game ID.                                   |
 | options  | **object**   | Added options to the end of the URL (optional) |
 | callback | **function** | Function to be called with result (optional)   |
 
