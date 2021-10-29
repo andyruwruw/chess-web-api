@@ -53,6 +53,7 @@ describe('Endpoints: Player', () => {
   describe('getPlayerOnline', () => {
     it('Valid Request', async () => {
       try {
+        // eslint-disable-next-line no-unused-vars
         const data = await getPlayerOnline(USERNAME);
       } catch (error) {
         expect(error.message).toBe('This endpoint was removed by Chess.com, please see https://github.com/andyruwruw/chess-web-api/tree/master#getplayeronlineusername-options-callback');

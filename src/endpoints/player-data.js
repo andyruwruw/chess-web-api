@@ -30,6 +30,7 @@ function getPlayerStats(username, options, callback, headers) {
     .execute(HttpManager.get, _callback);
 }
 
+// eslint-disable-next-line no-unused-vars
 function getPlayerOnline(username, options, callback, headers) {
   return new Error('This endpoint was removed by Chess.com, please see https://github.com/andyruwruw/chess-web-api/tree/master#getplayeronlineusername-options-callback');
 }
