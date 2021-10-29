@@ -2,9 +2,9 @@
 
 #### Description:
 
-chess-web-api's `getGameByID` method is not an official endpoint of [Chess.com's Published Data API](https://www.chess.com/news/view/published-data-api). Therefore it's subject to break, but unavailable or change.
+chess-web-api's `getGameById` method is not an official endpoint of [Chess.com's Published Data API](https://www.chess.com/news/view/published-data-api). It uses a callback from Chess.com's website to get its data.
 
-Please [submit an issue](https://github.com/andyruwruw/chess-web-api/issues) if you notice any strange behavior to improve this documentation or make fixes.
+Therefore it is highly unstable and could be changed without warning or stop functioning.
 
 The endpoint was requested by pi0neerpat and jschiarizzi and it's implementation was discussed [here](https://github.com/andyruwruw/chess-web-api/issues/10) and [here](https://github.com/andyruwruw/chess-web-api/issues/11). It utilizes the endpoint the official website uses to show your game.
 

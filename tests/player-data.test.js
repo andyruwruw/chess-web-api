@@ -53,13 +53,9 @@ describe('Endpoints: Player', () => {
   describe('getPlayerOnline', () => {
     it('Valid Request', async () => {
       try {
-        expect.assertions(2);
         const data = await getPlayerOnline(USERNAME);
-
-        expect(data.statusCode).toEqual(200);
-        expect(data.body).toHaveProperty('online');
       } catch (error) {
-        console.log(error);
+        expect(error.message).toBe('This endpoint was removed by Chess.com, please see https://github.com/andyruwruw/chess-web-api/tree/master#getplayeronlineusername-options-callback');
       }
     });
   });
