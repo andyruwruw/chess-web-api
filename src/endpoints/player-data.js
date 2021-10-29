@@ -30,18 +30,9 @@ function getPlayerStats(username, options, callback, headers) {
     .execute(HttpManager.get, _callback);
 }
 
+// eslint-disable-next-line no-unused-vars
 function getPlayerOnline(username, options, callback, headers) {
-  const [_options, _callback, _headers] = sortParameters(
-    ['object', 'function', 'object'],
-    [options, callback, headers],
-  );
-
-  return WebApiRequest.builder()
-    .withPath(`/pub/player/${username}/is-online`)
-    .withQueryParameters(_options)
-    .withHeaders(_headers)
-    .build()
-    .execute(HttpManager.get, _callback);
+  return new Error('This endpoint was removed by Chess.com, please see https://github.com/andyruwruw/chess-web-api/tree/master#getplayeronlineusername-options-callback');
 }
 
 function getPlayerCurrentDailyChess(username, options, callback, headers) {

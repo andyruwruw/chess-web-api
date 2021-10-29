@@ -115,13 +115,14 @@ Get ratings, win/loss, and other stats about a player's game play, tactics, less
 | callback | **function** | Function to be called with result (optional)   |
 
 # [getPlayerOnline(username, options, callback)](https://www.chess.com/news/view/published-data-api#pubapi-endpoint-player-is-online)
-Tells if an user has been online in the last five minutes.
-### Parameters
-| Name     | Type       | Description                                    |
-|----------|------------|------------------------------------------------|
-| username | **string**   | Username of desired profile.                   |
-| options  | **object**   | Added options to the end of the URL (optional) |
-| callback | **function** | Function to be called with result (optional)   |
+
+This endpoint was removed by Chess.com 8/25/2021. For more information see the [forum post](https://www.chess.com/clubs/forum/view/api-rfc-deprecate-and-remove-is-online-endpoint).
+
+```
+This endpoint requires a large number of internal resources to maintain, and in the past week it has been used by only one clear developer script with a user-agent that helps us contact the developer. All other access to that endpoint appears to be tests, runaway scripts, or unidentified programs that could work better.
+```
+
+For those looking for a simular endpoint, [Player Profile](#getplayerusername-options-callback) includes a **last_online** field. 
 
 # [getPlayerCurrentDailyChess(username, options, callback)](https://www.chess.com/news/view/published-data-api#pubapi-endpoint-games-current)
 Array of Daily Chess games that a player is currently playing.
@@ -200,9 +201,19 @@ List of tournaments the player is registered, is attending or has attended in th
 | callback | **function** | Function to be called with result (optional)   |
 
 # [getGameByID(id, options, callback)](https://github.com/andyruwruw/chess-web-api/blob/master/documentation/GAME.md)
-Game data lookup by ID.  Includes PGN, metadata, and player info.
 
-[Click here](https://github.com/andyruwruw/chess-web-api/blob/master/documentation/GAME.md) for more details.
+Game data lookup by ID. Includes PGN, metadata, and player info.
+
+For more information on what fields this generates or how it was implemented, [see here](https://github.com/andyruwruw/chess-web-api/blob/master/documentation/GAME.md).
+
+### **Read Before Using**: Fair Usage
+
+chess-web-api's `getGameById` method is not an official endpoint of [Chess.com's Published Data API](https://www.chess.com/news/view/published-data-api). It uses a callback from Chess.com's website to get its data.
+
+Therefore it is highly unstable and could be changed without warning or stop functioning. Hammering this endpoint with requests could result in an IP ban from Chess.com. This would not only impact your script, but your access to Chess.com itself. Use with care.
+
+Please [submit an issue](https://github.com/andyruwruw/chess-web-api/issues) if you notice any strange behavior to improve this documentation or make fixes. I'll periodically check to make sure the endpoint is working as intended and make fixes when needed.
+
 ### Parameters
 | Name     | Type         | Description                                    |
 |----------|--------------|------------------------------------------------|
