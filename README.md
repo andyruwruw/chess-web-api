@@ -210,7 +210,11 @@ For more information on what fields this generates or how it was implemented, [s
 
 chess-web-api's `getGameById` method is not an official endpoint of [Chess.com's Published Data API](https://www.chess.com/news/view/published-data-api). It uses a callback from Chess.com's website to get its data.
 
-Therefore it is highly unstable and could be changed without warning or stop functioning. Hammering this endpoint with requests could result in an IP ban from Chess.com. This would not only impact your script, but your access to Chess.com itself. Use with care.
+Therefore it is highly unstable and could be changed without warning or stop functioning. Hammering this endpoint with requests could result in an IP ban from Chess.com. This would not only impact your script, but your access to Chess.com itself.
+
+The use of this endpoint violates Chess.com's Terms of Service, however Chess.com has informed me that as long as the "script is polite", they have no issue and it will go unnoticed. Corrective action will be taken if there is abuse.
+
+There is work to add a simular endpoint to Chess.com, and this library will be updated when that takes place. There is no current timeline there and it could take up to a year.
 
 Please [submit an issue](https://github.com/andyruwruw/chess-web-api/issues) if you notice any strange behavior to improve this documentation or make fixes. I'll periodically check to make sure the endpoint is working as intended and make fixes when needed.
 
