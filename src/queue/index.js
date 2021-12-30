@@ -27,7 +27,7 @@ function dispatch(method, callback, parameters, options, callbackParameters, pri
   }
 
   const [_parameters, _options, _callbackParameters, _priority] = sortParameters(
-    ['array', 'object', 'function', 'number'],
+    ['array', 'object', 'array', 'number'],
     [parameters, options, callbackParameters, priority],
   );
 
