@@ -166,7 +166,9 @@ function _modifyResultBody(resultBody) {
  * @param {*} callback
  * @param {*} headers
  */
-function getGameByID(id, options, callback, headers) {
+function getGameByID(id, isDaily, options, callback, headers) {
+  let type = 'live'
+  if(isDaily) type= 'daily'
   const [_options, _callback, _headers] = sortParameters(
     ['object', 'function', 'object'],
     [options, callback, headers],
@@ -177,7 +179,7 @@ function getGameByID(id, options, callback, headers) {
   // to modify the result body
   const apiRequest = WebApiRequest.builder()
     .withHost(UNDOCUMENTED_API_HOST)
-    .withPath(`/callback/live/game/${id}`)
+    .withPath(`/callback/${type}/game/${id}`)
     .withQueryParameters(_options)
     .withHeaders(_headers)
     .build();
