@@ -166,14 +166,9 @@ function _modifyResultBody(resultBody) {
  * @param {*} callback
  * @param {*} headers
  */
-function getGameByID(id, options, callback, headers) {
-  let type
-  if(id.length == 9){
-    type = 'daily'
-  }else{
-    type='live'
-  }
-  
+function getGameByID(id, isDaily, options, callback, headers) {
+  let type = 'live'
+  if(isDaily) type= 'daily'
   const [_options, _callback, _headers] = sortParameters(
     ['object', 'function', 'object'],
     [options, callback, headers],
