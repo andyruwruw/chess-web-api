@@ -3,6 +3,7 @@
   "version": "1.1.2",
   "description": "chess.com api wrapper",
   "main": "src/index.js",
+  "types": "./types/main.d.ts",
   "scripts": {
     "lint": "eslint . --ignore-pattern node_modules/",
     "lint:fix": "eslint . --ignore-pattern node_modules/ --fix",
