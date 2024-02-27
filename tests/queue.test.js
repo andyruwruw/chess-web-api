@@ -49,7 +49,7 @@ describe('Functionality: Priority Queue', () => {
     it('Valid Call', async () => {
       try {
         expect.assertions(1);
-        const method = jest.fn();
+        const method = jest.fn(() => Promise.resolve());
         await queue.dispatch(method, () => (null), []);
         expect(method).toHaveBeenCalled();
       } catch (error) {
@@ -62,7 +62,7 @@ describe('Functionality: Priority Queue', () => {
     it('Valid Call', async () => {
       try {
         expect.assertions(1);
-        const method = jest.fn();
+        const method = jest.fn(() => Promise.resolve());
         await queue.dispatch(method, () => (null), ['1', '2']);
         expect(method).toHaveBeenLastCalledWith('1', '2', undefined);
       } catch (error) {

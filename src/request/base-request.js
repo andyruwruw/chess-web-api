@@ -10,6 +10,12 @@ const Request = function (builder) {
   this.bodyParameters = builder.bodyParameters;
   this.headers = builder.headers;
   this.path = builder.path;
+
+  if (this.headers === undefined) {
+    this.headers = { 'User-Agent': 'chess-web-api/1.1.3' };
+  } else if ((typeof this.headers === 'object') && !Object.prototype.hasOwnProperty.call(this.headers, 'User-Agent')) {
+    this.headers['User-Agent'] = 'chess-web-api/1.1.3';
+  }
 };
 
 Request.prototype._getter = function (key) {

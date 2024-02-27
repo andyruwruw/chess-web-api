@@ -27,10 +27,14 @@ describe('Endpoints: Clubs', () => {
 
     it('Missing ID', async () => {
       try {
-        expect.assertions(1);
-        await getClub();
+        expect.assertions(3);
+        const data = await getClub();
+
+        expect(data.statusCode).toEqual(200);
+        expect(data.body).toHaveProperty('name');
+        expect(data.body.name).toEqual('undefined');
       } catch (error) {
-        expect(error.statusCode).toEqual(404);
+        console.log(error);
       }
     });
   });
@@ -51,10 +55,14 @@ describe('Endpoints: Clubs', () => {
 
     it('Missing ID', async () => {
       try {
-        expect.assertions(1);
-        await getClubMembers();
+        expect.assertions(3);
+        const data = await getClubMembers();
+
+        expect(data.statusCode).toEqual(200);
+        expect(data.body).toHaveProperty('weekly');
+        expect(data.body.weekly).toEqual([]);
       } catch (error) {
-        expect(error.statusCode).toEqual(404);
+        console.log(error);
       }
     });
   });
@@ -77,10 +85,16 @@ describe('Endpoints: Clubs', () => {
 
     it('Missing ID', async () => {
       try {
-        expect.assertions(1);
-        await getClubMatches();
+        expect.assertions(5);
+        const data = await getClubMatches();
+
+        expect(data.statusCode).toEqual(200);
+        expect(data.body).toHaveProperty('finished');
+        expect(data.body).toHaveProperty('in_progress');
+        expect(data.body).toHaveProperty('registered');
+        expect(data.body.finished).toEqual([]);
       } catch (error) {
-        expect(error.statusCode).toEqual(404);
+        console.log(error);
       }
     });
   });
