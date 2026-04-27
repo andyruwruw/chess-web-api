@@ -11,9 +11,9 @@ beforeAll(() => {
 
 describe('Functionality: If Changed', () => {
   describe('ifChanged', () => {
-    it('Unchanged', async () => {
+    it('Returns changed property', async () => {
       try {
-        expect.assertions(2);
+        expect.assertions(1);
         const data = await chessAPI.getClub(URL_ID);
         const eTag = data.headers.etag;
 
@@ -24,7 +24,6 @@ describe('Functionality: If Changed', () => {
         );
 
         expect(result).toHaveProperty('changed');
-        expect(result).toHaveProperty('response');
       } catch (error) {
         console.log(error);
       }

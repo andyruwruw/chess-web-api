@@ -113,7 +113,7 @@ function _getPGN(pgnHeaders, moveList) {
     : new Chess();
 
   Object.keys(pgnHeaders).forEach((key) => {
-    chess.header(key, pgnHeaders[key]);
+    chess.setHeader(key, pgnHeaders[key]);
   });
 
   for (let i = 0; i < moveListLength; i += 2) {

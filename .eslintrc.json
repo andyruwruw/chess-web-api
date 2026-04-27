@@ -18,6 +18,7 @@
         "no-underscore-dangle": "off",
         "func-names": "off",
         "no-return-assign": "off",
-        "no-console": "off"
+        "no-console": "off",
+        "import/extensions": "off"
     }
 }

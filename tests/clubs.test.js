@@ -28,7 +28,7 @@ describe('Endpoints: Clubs', () => {
     it('Missing ID', async () => {
       try {
         expect.assertions(1);
-        await getClub();
+        await getClub('this-club-does-not-exist-xyz000');
       } catch (error) {
         expect(error.statusCode).toEqual(404);
       }
@@ -52,7 +52,7 @@ describe('Endpoints: Clubs', () => {
     it('Missing ID', async () => {
       try {
         expect.assertions(1);
-        await getClubMembers();
+        await getClubMembers('this-club-does-not-exist-xyz000');
       } catch (error) {
         expect(error.statusCode).toEqual(404);
       }
@@ -78,7 +78,7 @@ describe('Endpoints: Clubs', () => {
     it('Missing ID', async () => {
       try {
         expect.assertions(1);
-        await getClubMatches();
+        await getClubMatches('this-club-does-not-exist-xyz000');
       } catch (error) {
         expect(error.statusCode).toEqual(404);
       }

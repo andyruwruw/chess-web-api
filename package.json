@@ -1,7 +1,7 @@
 {
   "name": "chess-web-api",
-  "version": "1.1.1",
-  "description": "chess.com api wrapper",
+  "version": "1.2.0",
+  "description": "Lightweight Node.js wrapper for the Chess.com public data API",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint . --ignore-pattern node_modules/",
@@ -27,14 +27,13 @@
   },
   "homepage": "https://github.com/andyruwruw/chess-web-api#readme",
   "dependencies": {
-    "chess.js": "^0.11.0",
-    "superagent": "^5.2.1"
+    "chess.js": "^1.1.0",
+    "superagent": "^10.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.9.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0",
-    "jest": "^26.4.2",
-    "jest-each": "^26.6.2"
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "jest": "^29.0.0"
   }
 }

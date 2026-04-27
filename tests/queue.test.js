@@ -70,4 +70,97 @@ describe('Functionality: Priority Queue', () => {
       }
     });
   });
+
+  describe('Dispatch Error Cases', () => {
+    it('Throws when method is missing', () => {
+      expect.assertions(1);
+      expect(() => queue.dispatch(null, () => {}, [])).toThrow('dispatch requires request function');
+    });
+
+    it('Throws when callback is missing', () => {
+      expect.assertions(1);
+      expect(() => queue.dispatch(jest.fn(), null, [])).toThrow('dispatch requires callback function');
+    });
+  });
+
+  describe('Priority Ordering', () => {
+    it('Inserts higher-priority items before lower-priority items', () => {
+      expect.assertions(2);
+      queue._running = true; // prevent startRequests from dequeuing
+
+      queue.enqueue({
+        priority: 5, method: jest.fn(), callback: () => {}, parameters: [], callbackParameters: [],
+      });
+      queue.enqueue({
+        priority: 1, method: jest.fn(), callback: () => {}, parameters: [], callbackParameters: [],
+      });
+      queue.enqueue({
+        priority: 3, method: jest.fn(), callback: () => {}, parameters: [], callbackParameters: [],
+      });
+
+      expect(queue._requests[0].priority).toBe(1);
+      expect(queue._requests[1].priority).toBe(3);
+
+      queue.clearQueue();
+      queue._running = false;
+    });
+  });
+
+  describe('Dequeue', () => {
+    it('Returns null when queue is empty', () => {
+      expect.assertions(1);
+      expect(queue.dequeue()).toBeNull();
+    });
+  });
+
+  describe('ClearQueue', () => {
+    it('Empties the request queue', () => {
+      expect.assertions(2);
+      queue._running = true; // prevent startRequests
+
+      queue.enqueue({
+        priority: 1, method: jest.fn(), callback: () => {}, parameters: [], callbackParameters: [],
+      });
+      expect(queue._requests).toHaveLength(1);
+
+      queue.clearQueue();
+      expect(queue._requests).toHaveLength(0);
+      queue._running = false;
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('Method rejection propagates to callback', (done) => {
+      const failingMethod = jest.fn().mockRejectedValue(new Error('test error'));
+      queue.dispatch(failingMethod, (response, error) => {
+        try {
+          expect(error).toBeInstanceOf(Error);
+          expect(error.message).toBe('test error');
+          done();
+        } catch (err) {
+          done(err);
+        }
+      }, []);
+    });
+  });
+
+  describe('Multiple Requests', () => {
+    it('Processes requests sequentially when dispatched together', (done) => {
+      let count = 0;
+      const method = jest.fn().mockResolvedValue('ok');
+      const cb = () => {
+        count += 1;
+        if (count === 2) {
+          try {
+            expect(count).toBe(2);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        }
+      };
+      queue.dispatch(method, cb, []);
+      queue.dispatch(method, cb, []);
+    });
+  });
 });

@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 const { Chess } = require('chess.js');
-const each = require('jest-each').default;
 
 const { getGameByID } = require('../src/endpoints/games');
 
@@ -29,9 +28,10 @@ const TEST_GAME_2 = [
 // WEB: https://www.chess.com/analysis/game/live/7779158529
 const TEST_GAME_3 = [
   // id, startFen, endFen
+  // chess.js 1.x omits the en passant square when no capture is possible (correct per spec)
   '7779158529',
   'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
-  'r1bq1Nnr/pp1pk2p/n1p3pb/4p3/P4P2/1P1P4/2P3PP/RNBQKBNR b KQ a3 0 9',
+  'r1bq1Nnr/pp1pk2p/n1p3pb/4p3/P4P2/1P1P4/2P3PP/RNBQKBNR b KQ - 0 9',
 ];
 
 // promotion to Knight, capturing left
@@ -163,7 +163,7 @@ const ALL_TEST_GAMES = [
 
 describe('Endpoints: Games', () => {
   describe('getGameByID', () => {
-    each(ALL_TEST_GAMES).it('Valid Request', async (id, startFen, endFen) => {
+    it.each(ALL_TEST_GAMES)('Valid Request', async (id, startFen, endFen) => {
       try {
         expect.assertions(6);
         const data = await getGameByID(id);
@@ -176,11 +176,39 @@ describe('Endpoints: Games', () => {
 
         // verify that PGN results in the expected FEN per the game analysis page
         const chess = new Chess(startFen);
-        chess.load_pgn(data.body.game.pgn);
+        chess.loadPgn(data.body.game.pgn);
         expect(chess.fen()).toEqual(endFen);
       } catch (error) {
         console.log(error);
       }
+    });
+
+    it('Callback pattern returns game data', (done) => {
+      getGameByID(TEST_GAME_1[0], (error, result) => {
+        try {
+          expect(error).toBeNull();
+          expect(result.body).toHaveProperty('game');
+          expect(result.body).toHaveProperty('game.pgn');
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+
+    it('Rejects with error for non-existent game ID', async () => {
+      await expect(getGameByID('not-a-real-game-id')).rejects.toBeTruthy();
+    });
+
+    it('Callback returns error for non-existent game ID', (done) => {
+      getGameByID('not-a-real-game-id', (error) => {
+        try {
+          expect(error).toBeTruthy();
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
     });
   });
 });

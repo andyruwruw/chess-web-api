@@ -51,13 +51,23 @@ describe('Endpoints: Player', () => {
   });
 
   describe('getPlayerOnline', () => {
-    it('Valid Request', async () => {
-      try {
-        // eslint-disable-next-line no-unused-vars
-        const data = await getPlayerOnline(USERNAME);
-      } catch (error) {
-        expect(error.message).toBe('This endpoint was removed by Chess.com, please see https://github.com/andyruwruw/chess-web-api/tree/master#getplayeronlineusername-options-callback');
-      }
+    it('Rejects with removed-endpoint error', async () => {
+      expect.assertions(1);
+      await expect(getPlayerOnline(USERNAME)).rejects.toThrow(
+        'This endpoint was removed by Chess.com',
+      );
+    });
+
+    it('Calls callback with error when callback provided', (done) => {
+      getPlayerOnline(USERNAME, (error) => {
+        try {
+          expect(error).toBeInstanceOf(Error);
+          expect(error.message).toContain('This endpoint was removed by Chess.com');
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
     });
   });
 
@@ -107,7 +117,7 @@ describe('Endpoints: Player', () => {
   });
 
   describe('getPlayerCompleteMonthlyArchives', () => {
-    it('Valid Request', async () => {
+    it('Valid Request (single-digit month)', async () => {
       try {
         expect.assertions(3);
         const data = await getPlayerCompleteMonthlyArchives(USERNAME, 2020, 8);
@@ -119,13 +129,63 @@ describe('Endpoints: Player', () => {
         console.log(error);
       }
     });
+
+    it('Valid Request (two-digit month)', async () => {
+      try {
+        expect.assertions(3);
+        const data = await getPlayerCompleteMonthlyArchives(USERNAME, 2020, 12);
+
+        expect(data.statusCode).toEqual(200);
+        expect(data.body).toHaveProperty('games');
+        expect(data.body.games).toBeInstanceOf(Array);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    it('Valid Request (single-digit string month)', async () => {
+      try {
+        expect.assertions(3);
+        const data = await getPlayerCompleteMonthlyArchives(USERNAME, 2020, '8');
+
+        expect(data.statusCode).toEqual(200);
+        expect(data.body).toHaveProperty('games');
+        expect(data.body.games).toBeInstanceOf(Array);
+      } catch (error) {
+        console.log(error);
+      }
+    });
   });
 
   describe('getPlayerMultiGamePGN', () => {
-    it('Valid Request', async () => {
+    it('Valid Request (single-digit month)', async () => {
       try {
         expect.assertions(2);
         const data = await getPlayerMultiGamePGN(USERNAME, 2020, 8);
+
+        expect(data.statusCode).toEqual(200);
+        expect(data.body).toBeInstanceOf(Buffer);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    it('Valid Request (two-digit month)', async () => {
+      try {
+        expect.assertions(2);
+        const data = await getPlayerMultiGamePGN(USERNAME, 2020, 12);
+
+        expect(data.statusCode).toEqual(200);
+        expect(data.body).toBeInstanceOf(Buffer);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    it('Valid Request (single-digit string month)', async () => {
+      try {
+        expect.assertions(2);
+        const data = await getPlayerMultiGamePGN(USERNAME, 2020, '8');
 
         expect(data.statusCode).toEqual(200);
         expect(data.body).toBeInstanceOf(Buffer);

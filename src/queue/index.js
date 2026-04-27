@@ -94,8 +94,13 @@ async function startRequests() {
     const request = this.dequeue();
     const { method, callback } = request;
     let error = null;
-    // eslint-disable-next-line no-await-in-loop
-    const response = await method(...request.parameters, request.options).catch((e) => error = e);
+    let response;
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      response = await method(...request.parameters, request.options);
+    } catch (e) {
+      error = e;
+    }
     callback(response, error, ...request.callbackParameters);
   }
   this._running = false;

@@ -72,5 +72,18 @@ describe('Functionality: Sort Parameters', () => {
         console.log(error);
       }
     });
+
+    it('Defaults missing array parameter', () => {
+      expect.assertions(2);
+      const [_arr, _str] = sortParameters(['array', 'string'], ['a-string']);
+      expect(_arr).toBeInstanceOf(Array);
+      expect(_str).toBe('a-string');
+    });
+
+    it('Returns null default for unrecognized type', () => {
+      expect.assertions(1);
+      const [val] = sortParameters(['unknown-type'], ['anything']);
+      expect(val).toBeNull();
+    });
   });
 });
